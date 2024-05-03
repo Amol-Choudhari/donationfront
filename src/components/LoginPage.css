@@ -1,0 +1,27 @@
+
+.gradient-custom-2 {
+    /* Existing gradient background */
+    background: #fccb90;
+    background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+
+    /* Adding shadow */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    /* Existing border-radius */
+    border-top-right-radius: .3rem;
+    border-bottom-right-radius: .3rem;
+}
+
+/* Media queries remain the same */
+@media (min-width: 768px) {
+    .gradient-form {
+        height: 100vh !important;
+    }
+}
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
+}
