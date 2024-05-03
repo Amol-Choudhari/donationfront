@@ -8,7 +8,7 @@ import { Input, Ripple, initMDB } from "mdb-ui-kit";
 
 function LoginPage() {
 
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate(); // useNavigate used for navigation after login
 
@@ -16,16 +16,20 @@ function LoginPage() {
     event.preventDefault(); // Prevent the default form submission behavior
 
     // Check if email or password is empty
-    if (!email || !password) {
-      alert('Both email and password are required.');
+    if (!username || !password) {
+      alert('Both username and password are required.');
       return;  // Stop the function if validation fails
     }
 
     try {
+      const headers = {
+        'Content-Type': 'application/json'
+      }
       const response = await axios.post('http://localhost:8081/auth/login', {
-        username: email,
+        username: username,
         password: password
-      });
+      },headers);
+      
       console.log(response.data); // Log or store the JWT token as needed
       navigate('/'); // Navigate to homepage or dashboard after login
     } catch (error) {
@@ -71,13 +75,13 @@ initMDB({ Input, Ripple });
 
               <p>Please login to your account</p>
 
-              <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='text'
-                        onChange={(e) => setEmail(e.target.value)} />
-              <div className="invalid-feedback">Please choose a email.</div>
+              <MDBInput wrapperClass='mb-4' label='Username' id='username' type='text'
+                        onChange={(e) => setUsername(e.target.value)} />
+              <div className="invalid-feedback">Please enter username.</div>
               
-              <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password'
+              <MDBInput wrapperClass='mb-4' label='Password' id='password' type='password'
                         onChange={(e) => setPassword(e.target.value)} />  
-              <div className="invalid-feedback">Please choose a password.</div>
+              <div className="invalid-feedback">Please enter password.</div>
 
               <div className="text-center pt-1 mb-5 pb-1">
                 <MDBBtn className="mb-4 w-100 gradient-custom-2 data-mdb-ripple-init">Sign in</MDBBtn>
