@@ -13,9 +13,9 @@ function HomePage() {
 
     return (
         <div className="home-page-container" style={backgroundStyle}>
-            <h1 className="home-page-title">Home Page</h1>
             <p className="home-page-content">Shree Sati Anasuya Mata Temple , Paradsinga.</p>
-            <Link className="home-page-link" to="/login">Login</Link>
+            
+            <Link className="home-page-link btn btn-primary" to="/login">Login</Link>
             {/* Add more links as needed */}
         </div>
     );
