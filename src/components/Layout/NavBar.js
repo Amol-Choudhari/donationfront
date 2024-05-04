@@ -1,4 +1,6 @@
 import React from 'react';
+import './Layout.css';
+
 
 const Navbar = () => {
   return (
@@ -17,12 +19,7 @@ const Navbar = () => {
         </button>
 
         <a className="navbar-brand" href="#">
-          <img
-            src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
-            height="25"
-            alt="MDB Logo"
-            loading="lazy"
-          />
+         Shree Sati Anasuya Mata Mandir
         </a>
 
         <form className="d-none d-md-flex input-group w-auto my-auto">
@@ -63,41 +60,7 @@ const Navbar = () => {
             </ul>
           </li>
 
-          <li className="nav-item">
-            <a className="nav-link me-3 me-lg-0" href="#">
-              <i className="fas fa-fill-drip"></i>
-            </a>
-          </li>
-          
-          <li className="nav-item me-3 me-lg-0">
-            <a className="nav-link" href="#">
-              <i className="fab fa-github"></i>
-            </a>
-          </li>
-
-          <li className="nav-item dropdown">
-            <a
-              data-mdb-dropdown-init
-              className="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-mdb-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i className="flag-united-kingdom flag m-0"></i>
-            </a>
-            <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <li>
-                <a className="dropdown-item" href="#">
-                  <i className="flag-united-kingdom flag"></i>English
-                  <i className="fa fa-check text-success ms-2"></i>
-                </a>
-              </li>
-              <li><hr className="dropdown-divider" /></li>
-              {/* Add more dropdown items here */}
-            </ul>
-          </li>
+   
 
           <li className="nav-item dropdown">
             <a
