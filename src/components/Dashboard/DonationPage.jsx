@@ -3,14 +3,11 @@ import NavBar from '../Layout/NavBar';
 import SideBar from '../Layout/SideBar';
 import { useForm } from 'react-hook-form'; // Example using react-hook-form
 
-import { useLocation } from 'react-router-dom';
-
 const DonationPage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
   // Check if the current pathname matches the donation page path
-  const isDonationPage = location.pathname === '/donation';
-ß
+
   return (
     <div className="container-fluid pt-4">  
       <NavBar />
