@@ -11,7 +11,7 @@ const MainPage = () => {
         <div className="col-lg-3">
           <SideBar />
         </div>
-        <div className="col-lg-9">
+        <div className="col-lg-9" style={{ marginTop: '58px' }}>
           <div className="container">
             {/* Ensuring cards are centered and have consistent spacing */}
             <div className="row justify-content-center">
@@ -54,4 +54,3 @@ const MainPage = () => {
 }
 
 export default MainPage;
-
