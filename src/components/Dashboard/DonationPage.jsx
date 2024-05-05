@@ -7,7 +7,6 @@ const DonationPage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
   // Check if the current pathname matches the donation page path
-
   return (
     <div className="container-fluid pt-4">  
       <NavBar />
