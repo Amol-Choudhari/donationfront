@@ -27,7 +27,7 @@ function LoginPage() {
         password: password
       });
       console.log(response.data); // Log or store the JWT token as needed
-      navigate('/'); // Navigate to homepage or dashboard after login
+      navigate('/mainpage'); // Navigate to homepage or dashboard after login
     } catch (error) {
       console.error('Login failed:', error.response || error.message);
       // Optionally handle errors, e.g., show an error message

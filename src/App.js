@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/SiteElements/Header'; // Make sure the path is correct
 import Footer from './components/SiteElements/Footer'; // Make sure the path is correct
 import HomePage from './components/Pages/HomePage';
@@ -10,6 +10,7 @@ import MainPage from "./components/Dashboard/MainPage";
 import DonationPage from "./components/Dashboard/DonationPage";
 import ReportPage from './components/Dashboard/ReportPage';
 import MasterPage from './components/Dashboard/MasterPage';
+import ManageUsers from './components/Dashboard/ManageUsers';
 
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
                     <Route path="/donation" element={<DonationPage />} /> {/* Use element instead of component */}
                     <Route path="/report" element={<ReportPage />} />
                     <Route path="/masters" element={<MasterPage />} />
+                    <Route path="/manageusers" element={<ManageUsers />} />
+
 
 
                 </Routes>
