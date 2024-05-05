@@ -11,6 +11,8 @@ import DonationPage from "./components/Dashboard/DonationPage";
 import ReportPage from './components/Dashboard/ReportPage';
 import MasterPage from './components/Dashboard/MasterPage';
 import ManageUsers from './components/Dashboard/ManageUsers';
+import UserForm from './components/Users/UserForm';
+import UserDetails from './components/Users/UserDetails';
 
 
 function App() {
@@ -29,6 +31,8 @@ function App() {
                     <Route path="/masters" element={<MasterPage />} />
                     <Route path="/manageusers" element={<ManageUsers />} />
 
+                    <Route path="/userform" element={<UserForm />} />
+                    <Route path="/manageusers" element={<ManageUsers />} />
 
 
                 </Routes>

@@ -4,44 +4,38 @@ import { Link } from 'react-router-dom';
 
 const UserList = () => {
     const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
 
     useEffect(() => {
         fetchUsers();
     }, []);
 
     const fetchUsers = () => {
-        // Get the token from the session storage
+        // Fetch users from the backend
         const token = sessionStorage.getItem('jwtToken');
 
-        // If the token exists, include it in the request headers
         if (token) {
-        axios.get('http://localhost:8081/user/getusers', {
-            headers: {
-            Authorization: `Bearer ${token}` // Assuming your backend expects a Bearer token
-            }
-        })
-        .then(response => {
-            setUsers(response.data);
-        })
-        .catch(error => {
-            console.error('Error fetching users:', error);
-        });
+            axios.get('http://localhost:8081/user/getusers', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                setUsers(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching users:', error);
+            });
         } else {
-        console.error('Token not found in session storage');
+            console.error('Token not found in session storage');
         }
     };
-
-   // if (loading) return <p>Loading...</p>;
-   //ß if (error) return <p>{error}</p>;
 
     return (
         <div>
             <h1 className='bg-secondary' style={{color: 'white'}}>Users</h1>
-            <Link to="/users/userform" className="btn btn-primary mb-5">Add New User</Link>
+            <Link to="/userform" className="btn btn-primary mb-5">Add New User</Link>
             <table className="table table-bordered table-striped">
-                <caption>List of regisered users</caption>
+                <caption>List of registered users</caption>
                 <thead>
                     <tr>
                         <th>Name</th>
