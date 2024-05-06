@@ -1,8 +1,27 @@
 import React from 'react';
 import './Layout.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const SideBar = () => {
+  const navigate = useNavigate();
+  const handleLogout = async (event) => {
+    event.preventDefault(); // Prevent the default form submission behavior
+    const token = sessionStorage.getItem('jwtToken');
+
+    try {
+      /*axios.get('http://localhost:8081/logout', {},
+        {'Content-Type':'application/json','Authorization': `Bearer ${token}`});*/
+      sessionStorage.removeItem('jwtToken');
+      navigate('/login'); // Navigate to homepage or dashboard after login
+
+    } catch (error) {
+      alert("Please try again.");
+      navigate('/login');
+    }
+  };
+
   return (
     <nav id="sidebarMenu" className="collapse d-lg-block sidebar collapse bg-white">
       <div className="position-sticky">
@@ -26,7 +45,7 @@ const SideBar = () => {
             <i className="fas fa-lock fa-fw me-3"></i><span>Masters</span>
           </Link>
           <Link to="/logout" className="list-group-item list-group-item-action py-2 ripple">
-            <i className="fas fa-power-off me-3"></i><span>Logout</span>
+            <i className="fas fa-power-off me-3"></i><span onClick={handleLogout}>Logout</span>
           </Link>
           {/* Add more list items here */}
         </div>

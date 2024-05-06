@@ -10,8 +10,8 @@ initMDB({ Input, Ripple });
 const UserForm = ({ userId, refreshUsers }) => {
   const [user, setUser] = useState({
     name: '',
-    mobile: '',
-    age: '',
+    mobile: 0,
+    age: 0,
     gender: '',
     email: '',
     username: '',
@@ -35,11 +35,18 @@ const UserForm = ({ userId, refreshUsers }) => {
 
   // Handle form submission (for both create and update)
   const handleSubmit = (event) => {
+
+    // Get the token from the session storage
+    const token = sessionStorage.getItem('jwtToken');
     event.preventDefault();
     const method = userId ? 'put' : 'post';
-    const url = userId ? `http://localhost:8080/api/users/getuser/${userId}` : 'http://localhost:8080/api/users/adduser';
+    const url = userId ? `http://localhost:8081/user/getuser/${userId}` : 'http://localhost:8081/user/adduser';
 
-    axios[method](url, user) // Pass the user object as data
+    axios[method](url, user,{
+      headers: {
+        Authorization: `Bearer ${token}` // Assuming your backend expects a Bearer token
+      }
+    }) // Pass the user object as data
           .then(() => {
         refreshUsers();
       })
