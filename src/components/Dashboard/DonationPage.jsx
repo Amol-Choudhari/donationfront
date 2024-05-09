@@ -1,10 +1,36 @@
-import React from 'react';
 import NavBar from '../Layout/NavBar';
 import SideBar from '../Layout/SideBar';
 import { useForm } from 'react-hook-form'; // Example using react-hook-form
+import DonationList from '../Donation/DonationList'; // Import DonationList component
+import React, { useState, useEffect } from 'react';
 
 const DonationPage = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const [donation, setDonation] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
+
+    useEffect(() => {
+      // Fetch donation data from your backend API
+      fetchDonations();
+    }, []);
+    
+    const fetchDonations = async () => {
+      let fetchedDonationData; // Declare a variable to hold fetched data
+  
+      try {
+          // Make your API call using fetch or axios
+          const response = await fetch('http://your-api-endpoint');
+          fetchedDonationData = await response.json(); // Parse the response
+  
+          // Update the donation state with fetched data
+          setDonation(fetchedDonationData);
+      } catch (error) {
+          console.error('Error fetching donations:', error);
+          // Handle errors appropriately (e.g., display error message to user)
+      }
+  };
+  
+    
+
 
   // Check if the current pathname matches the donation page path
   return (
@@ -16,39 +42,12 @@ const DonationPage = () => {
         </div>
         <div className="col-lg-9" style={{ marginTop: '58px' }}>
           <div className="container">
-            <h2 className="mt-3 mb-4">Donation Page</h2>
-            
-            {/* Add Donation Form */}
-            <div className="mb-4">
-              <h3>Add Donation</h3>
-              <form>
-                <div className="mb-3">
-                  <label htmlFor="amount" className="form-label">Amount:</label>
-                  <input type="number" className="form-control" id="amount" />
-                </div>
-                <button type="submit" className="btn btn-primary">Add Donation</button>
-              </form>
-            </div>
-
-            {/* List of Donations Made */}
-            <div className="mb-4">
-              <h3>List of Donations Made</h3>
-              {/* Dummy data for demonstration */}
-              <ul className="list-group">
-                <li className="list-group-item">Donation 1 - Amount: $100</li>
-                <li className="list-group-item">Donation 2 - Amount: $200</li>
-                <li className="list-group-item">Donation 3 - Amount: $150</li>
-              </ul>
-            </div>
-
-            {/* Print Receipt Button */}
-            <div>
-              <button className="btn btn-primary">Print Receipt</button>
-            </div>
+              <DonationList donation={donation} deleteUser={selectedUser} />  {/* Pass props to DonationList */}
+          </div>
+           
           </div>
         </div>
       </div>
-    </div>
   );
 }
 
