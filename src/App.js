@@ -13,6 +13,7 @@ import MasterPage from './components/Dashboard/MasterPage';
 import ManageUsers from './components/Dashboard/ManageUsers';
 import UserForm from './components/Users/UserForm';
 import UserDetails from './components/Users/UserDetails';
+import DonationForm from './components/Donation/DonationForm';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
 
                     <Route path="/userform" element={<UserForm />} />
                     <Route path="/manageusers" element={<ManageUsers />} />
+                    <Route path="/donationform" element={<DonationForm />} />
 
 
                 </Routes>

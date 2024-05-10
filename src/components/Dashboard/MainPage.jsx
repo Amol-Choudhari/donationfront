@@ -31,7 +31,7 @@ const MainPage = () => {
                   <div className="card-body">
                     <h5 className="card-title">Donations</h5>
                     <p className="card-text">Donation related information, click to proceed</p>
-                    <Link to="/donations" className="btn btn-primary">Go to Donations</Link>
+                    <Link to="/donation" className="btn btn-primary">Go to Donations</Link>
                     </div>
                 </div>
               </div>
