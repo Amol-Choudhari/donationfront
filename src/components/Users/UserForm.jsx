@@ -15,17 +15,47 @@ const UserForm = ({ userId, refreshUsers }) => {
     gender: '',
     email: '',
     username: '',
-    password: ''
+    password: '',
+    roles: [] // New state to store selected roles
   });
+
+  // Get the token from the session storage
+  const token = sessionStorage.getItem('jwtToken');
+
+  const [availableRoles, setAvailableRoles] = useState([]);
+
+  useEffect(() => {
+    // Fetch available roles from the backend when the component mounts
+    fetchRoles();
+  }, []);
+
+  const fetchRoles = async () => {
+    try {
+      const response = await axios.get('http://localhost:8081/master/roles/fetchall',{
+        headers: {
+          Authorization: `Bearer ${token}` // Assuming your backend expects a Bearer token
+        }
+      });
+      setAvailableRoles(response.data);
+    } catch (error) {
+      console.error('Error fetching roles:', error);
+    }
+  };
 
   // Load user details if userId is provided (for edit mode)
   useEffect(() => {
     if (userId) {
-      axios.get(`http://localhost:8080/api/users/getuser/${userId}`)
+      axios.get(`http://localhost:8080/api/users/getuser/${userId}`,)
         .then(response => setUser(response.data))
         .catch(error => console.error('Error loading the user details', error));
     }
   }, [userId]);
+
+  // Handle role selection
+  const handleRoleChange = (event) => {
+    const selectedRoles = Array.from(event.target.selectedOptions, option => option.value);
+    setUser(prevState => ({ ...prevState, roles: selectedRoles }));
+  };
 
   // Handle form input changes
   const handleChange = (event) => {
@@ -36,8 +66,7 @@ const UserForm = ({ userId, refreshUsers }) => {
   // Handle form submission (for both create and update)
   const handleSubmit = (event) => {
 
-    // Get the token from the session storage
-    const token = sessionStorage.getItem('jwtToken');
+    
     event.preventDefault();
     const method = userId ? 'put' : 'post';
     const url = userId ? `http://localhost:8081/user/getuser/${userId}` : 'http://localhost:8081/user/adduser';
@@ -106,6 +135,15 @@ const UserForm = ({ userId, refreshUsers }) => {
                     <label className="form-label" htmlFor="age">Age</label>
                   </div>
                 </div>
+              </div>
+
+              <div className="col">
+                  <div data-mdb-input-init className="form-outline mb-4"></div>
+                  <select className="form-control" multiple value={user.roles} onChange={handleRoleChange}>
+                    {availableRoles.map(role => (
+                      <option key={role.id} value={role.name}>{role.name}</option>
+                    ))}
+                  </select>
               </div>
 
               <div className="row mb-4">
