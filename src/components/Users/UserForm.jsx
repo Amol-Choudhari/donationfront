@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import NavBar from '../Layout/NavBar';
 import SideBar from '../Layout/SideBar';
@@ -24,12 +24,8 @@ const UserForm = ({ userId, refreshUsers }) => {
 
   const [availableRoles, setAvailableRoles] = useState([]);
 
-  useEffect(() => {
-    // Fetch available roles from the backend when the component mounts
-    fetchRoles();
-  }, []);
 
-  const fetchRoles = async () => {
+  const fetchRoles = useCallback(async () => {
     try {
       const response = await axios.get('http://localhost:8081/master/roles/fetchall',{
         headers: {
@@ -40,7 +36,12 @@ const UserForm = ({ userId, refreshUsers }) => {
     } catch (error) {
       console.error('Error fetching roles:', error);
     }
-  };
+  }, [token]);
+
+  useEffect(() => {
+    // Fetch available roles from the backend when the component mounts
+    fetchRoles();
+  }, [fetchRoles]);
 
   // Load user details if userId is provided (for edit mode)
   useEffect(() => {
@@ -53,8 +54,14 @@ const UserForm = ({ userId, refreshUsers }) => {
 
   // Handle role selection
   const handleRoleChange = (event) => {
-    const selectedRoles = Array.from(event.target.selectedOptions, option => option.value);
-    setUser(prevState => ({ ...prevState, roles: selectedRoles }));
+    const { value, checked } = event.target;
+    const selectedRole = availableRoles.find(role => role.id === parseInt(value));
+    setUser(prevState => {
+      const updatedRoles = checked
+        ? [...prevState.roles, selectedRole]
+        : prevState.roles.filter(role => role.id !== parseInt(value));
+      return { ...prevState, roles: updatedRoles };
+    });
   };
 
   // Handle form input changes
@@ -71,7 +78,19 @@ const UserForm = ({ userId, refreshUsers }) => {
     const method = userId ? 'put' : 'post';
     const url = userId ? `http://localhost:8081/user/getuser/${userId}` : 'http://localhost:8081/user/adduser';
 
-    axios[method](url, user,{
+    // Ensure the JSON payload is correctly structured
+    const payload = {
+      name: user.name,
+      mobile: user.mobile,
+      age: user.age,
+      gender: user.gender,
+      email: user.email,
+      username: user.username,
+      password: user.password,
+      roles: user.roles.map(role => ({ id: role.id, name: role.name }))
+    };
+
+    axios[method](url, payload,{
       headers: {
         Authorization: `Bearer ${token}` // Assuming your backend expects a Bearer token
       }
@@ -137,15 +156,6 @@ const UserForm = ({ userId, refreshUsers }) => {
                 </div>
               </div>
 
-              <div className="col">
-                  <div data-mdb-input-init className="form-outline mb-4"></div>
-                  <select className="form-control" multiple value={user.roles} onChange={handleRoleChange}>
-                    {availableRoles.map(role => (
-                      <option key={role.id} value={role.name}>{role.name}</option>
-                    ))}
-                  </select>
-              </div>
-
               <div className="row mb-4">
                   <div className="col">
                       <div data-mdb-input-init className="form-outline mb-4">
@@ -160,6 +170,30 @@ const UserForm = ({ userId, refreshUsers }) => {
                       </div>
                   </div>
                 </div>
+
+                <div className="row mb-4">
+                <div className="col">
+                    <div data-mdb-input-init className="form-outline mb-4">
+                    <label className="form-label">Roles</label>
+                    {availableRoles.map(role => (
+                      <div key={role.id} className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value={role.id}
+                          id={`role-${role.id}`}
+                          checked={user.roles.some(r => r.id === role.id)}
+                          onChange={handleRoleChange}
+                        />
+                        <label className="form-check-label" htmlFor={`role-${role.id}`}>
+                          {role.name}
+                        </label>
+                      </div>
+                    ))}
+                    </div>
+                </div>
+                <div className="col"></div>
+              </div>
       
                 <div className="container">
                   <div className='col-md-2'>
