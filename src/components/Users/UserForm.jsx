@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useParams } from 'react-router-dom'; // Import useParams hook
 import axios from 'axios';
 import NavBar from '../Layout/NavBar';
 import SideBar from '../Layout/SideBar';
@@ -7,23 +8,32 @@ import { Input, Ripple, initMDB } from "mdb-ui-kit";
 
 initMDB({ Input, Ripple });  
 
-const UserForm = ({ userId, refreshUsers }) => {
-  const [user, setUser] = useState({
+const UserForm = ({ refreshUsers }) => {
+  
+  const params = useParams(); // Use useParams hook
+  const userId = params.userId; // Extract userId from params object
+  const initialUserState = {
     name: '',
-    mobile: 0,
-    age: 0,
+    mobile: '',
+    age: '',
     gender: '',
     email: '',
     username: '',
     password: '',
     roles: [] // New state to store selected roles
-  });
+  };
+
+  const [user, setUser] = useState(initialUserState);
+
+  // Function to reset the form state to initial values
+  const resetForm = () => {
+    setUser(initialUserState);
+  };
 
   // Get the token from the session storage
   const token = sessionStorage.getItem('jwtToken');
 
   const [availableRoles, setAvailableRoles] = useState([]);
-
 
   const fetchRoles = useCallback(async () => {
     try {
@@ -46,11 +56,15 @@ const UserForm = ({ userId, refreshUsers }) => {
   // Load user details if userId is provided (for edit mode)
   useEffect(() => {
     if (userId) {
-      axios.get(`http://localhost:8080/api/users/getuser/${userId}`,)
+      axios.get(`http://localhost:8081/user/getuser/${userId}`,{
+        headers: {
+          Authorization: `Bearer ${token}` // Assuming your backend expects a Bearer token
+        }
+      })
         .then(response => setUser(response.data))
         .catch(error => console.error('Error loading the user details', error));
     }
-  }, [userId]);
+  }, [userId,token]);
 
   // Handle role selection
   const handleRoleChange = (event) => {
@@ -76,7 +90,7 @@ const UserForm = ({ userId, refreshUsers }) => {
     
     event.preventDefault();
     const method = userId ? 'put' : 'post';
-    const url = userId ? `http://localhost:8081/user/getuser/${userId}` : 'http://localhost:8081/user/adduser';
+    const url = userId ? `http://localhost:8081/user/edituser/${userId}` : 'http://localhost:8081/user/adduser';
 
     // Ensure the JSON payload is correctly structured
     const payload = {
@@ -95,9 +109,23 @@ const UserForm = ({ userId, refreshUsers }) => {
         Authorization: `Bearer ${token}` // Assuming your backend expects a Bearer token
       }
     }) // Pass the user object as data
-          .then(() => {
-        refreshUsers();
-      })
+          .then(response => {
+            if(response.data===true){
+              if(userId){
+                alert("User details updated successfully");
+              }else{
+                alert("New user added successfully");
+              }
+              
+            }else{
+              alert("User not added. Please try again");
+            }
+
+            if(!userId){
+              // After successful submission, reset the form
+              resetForm();
+            }
+        })
       .catch(error => console.error('Error saving the user', error));
   };
 

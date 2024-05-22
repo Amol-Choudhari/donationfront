@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from '../Layout/NavBar';
 import SideBar from '../Layout/SideBar';
-import { Link } from 'react-router-dom';
 import UserList from '../Users/UserList'; // Corrected import statement
-import UserDetails from '../Users/UserDetails';
-import UserForm from '../Users/UserForm';
 import axios from 'axios'; 
 
 const ManageUsers = () => {
 
   const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
-
+  const [selectedUser] = useState(null);
+  // Get the token from the session storage
+  const token = sessionStorage.getItem('jwtToken');
 
   // Fetch users from the backend when the component mounts
   useEffect(() => {
-    // Get the token from the session storage
-    const token = sessionStorage.getItem('jwtToken');
+    
 
     // If the token exists, include it in the request headers
     if (token) {
@@ -34,7 +31,7 @@ const ManageUsers = () => {
     } else {
       console.error('Token not found in session storage');
     }
-  }, []);
+  }, [token]);
 
 
   return (
