@@ -74,7 +74,7 @@ initMDB({ Input, Ripple });
       <MDBContainer className="my-5 gradient-form">
         <form onSubmit={handleLogin}>
           <MDBRow>
-            <MDBCol col='5' className="mb-5" style={{ maxWidth: '40%', margin: 'auto', marginTop: '5rem',border: '1px solid #ccc', borderRadius: '5px'}}>
+            <MDBCol col='5' className="mb-5" style={{ maxWidth: '35%', margin: 'auto', marginTop: '5rem',border: '2px solid #ccc', borderRadius: '5px'}}>
             <div className="d-flex flex-column">
 
               <p className='mt-6'>Please login to your account</p>
