@@ -21,7 +21,7 @@ function App() {
             <div>
                 <Header />
                 <Routes>
-                    <Route exact path="/" element={<HomePage />} />
+                    <Route exact path="/" element={<LoginPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/register" element={<Register />} />

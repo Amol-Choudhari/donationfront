@@ -8,7 +8,7 @@ import { Input, Ripple, initMDB } from "mdb-ui-kit";
 
 initMDB({ Input, Ripple });  
 
-const UserForm = ({ refreshUsers }) => {
+const UserForm = () => {
   
   const params = useParams(); // Use useParams hook
   const userId = params.userId; // Extract userId from params object
@@ -86,9 +86,18 @@ const UserForm = ({ refreshUsers }) => {
 
   // Handle form submission (for both create and update)
   const handleSubmit = (event) => {
-
-    
     event.preventDefault();
+
+    if (user.roles.length === 0) {
+      alert('Please select at least one role.');
+      return;
+    }
+
+    if (user.password !== user.confirmpassword) {
+      alert('Please check Password and Confirm Password did not matched');
+      return;
+    }
+
     const method = userId ? 'put' : 'post';
     const url = userId ? `http://localhost:8081/user/edituser/${userId}` : 'http://localhost:8081/user/adduser';
 
@@ -129,6 +138,11 @@ const UserForm = ({ refreshUsers }) => {
       .catch(error => console.error('Error saving the user', error));
   };
 
+  var title = "Add User Form";
+  if(userId){
+    title = "Edit User Form";
+  }
+
   return (
 
     <div className="container-fluid pt-4">  
@@ -137,6 +151,7 @@ const UserForm = ({ refreshUsers }) => {
         <div className="col-lg-3"><SideBar /></div>
         <div className="col-lg-9" style={{ paddingTop: '70px' }}> {/* Increase padding-top to push content below NavBar */}
           <div className="container">
+            <h4>{title}</h4>
             <form onSubmit={handleSubmit}>
               <div className="row mb-4">
                 <div className="col">
