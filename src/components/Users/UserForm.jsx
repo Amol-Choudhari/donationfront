@@ -4,9 +4,14 @@ import axios from 'axios';
 import NavBar from '../Layout/NavBar';
 import SideBar from '../Layout/SideBar';
 // Initialization for ES Users
-import { Input, Ripple, initMDB } from "mdb-ui-kit";
+//import { Input, Ripple, initMDB } from "mdb-ui-kit";
 
-initMDB({ Input, Ripple });  
+import 'bootstrap/dist/css/bootstrap.min.css'; 
+//import $ from 'jquery'; 
+//import Popper from 'popper.js'; 
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
+//initMDB({ Input, Ripple });  
 
 const UserForm = () => {
   
@@ -149,74 +154,81 @@ const UserForm = () => {
       <NavBar />
       <div className="row">
         <div className="col-lg-3"><SideBar /></div>
-        <div className="col-lg-9" style={{ paddingTop: '70px' }}> {/* Increase padding-top to push content below NavBar */}
-          <div className="container">
-            <h4>{title}</h4>
+        <div className="col-lg-6" style={{ paddingTop: '90px' }}> {/* Increase padding-top to push content below NavBar */}
+          <div className="container border border-primary rounded" style={{ padding: '30px' }}>
+            <h3>{title}</h3>
             <form onSubmit={handleSubmit}>
               <div className="row mb-4">
                 <div className="col">
-                  <div data-mdb-input-init className="form-outline">
-                    <input type="text" id="name" className="form-control" name="name" value={user.name} onChange={handleChange} placeholder="Name" required />
-                    <label className="form-label" htmlFor="name">Name</label>
+                  <div className="form-outline">
+                  <label className="form-label" htmlFor="name">Name</label>
+                    <input type="text" id="name" className="form-control border" name="name" value={user.name} onChange={handleChange} placeholder="Enter Name" required />
+                    
                   </div>
                 </div>
                 <div className="col">
-                  <div data-mdb-input-init className="form-outline">
-                    <input type="text" id="username" className="form-control" name="username" value={user.username} onChange={handleChange} placeholder="Username" required />
-                    <label className="form-label" htmlFor="username">Username</label>
+                  <div className="form-outline">
+                  <label className="form-label" htmlFor="username">Username</label>
+                    <input type="text" id="username" className="form-control border" name="username" value={user.username} onChange={handleChange} placeholder="Enter Username" required />
+                    
                   </div>
                 </div>
 
               </div>
               <div className="row mb-4">
                 <div className="col">
-                  <div data-mdb-input-init className="form-outline mb-4">
-                    <input type="email" id="email" className="form-control" name="email" value={user.email} onChange={handleChange} placeholder="Email" required />
-                    <label className="form-label" htmlFor="email">Email address</label>
+                  <div className="form-outline mb-4">
+                  <label className="form-label" htmlFor="email">Email address</label>
+                    <input type="email" id="email" className="form-control border" name="email" value={user.email} onChange={handleChange} placeholder="Enter Email" required />
+                    
                   </div>
                 </div>
                 <div className="col">
-                  <div data-mdb-input-init className="form-outline mb-4">
-                    <input type="tel" id="mobile" className="form-control" name="mobile" value={user.mobile} onChange={handleChange} placeholder="Mobile" required />
-                    <label className="form-label" htmlFor="mobile">Mobile</label>
+                  <div className="form-outline mb-4">
+                  <label className="form-label" htmlFor="mobile">Mobile</label>
+                    <input type="tel" id="mobile" className="form-control border" name="mobile" value={user.mobile} onChange={handleChange} placeholder="Enter Mobile No." required />
+                    
                   </div>
                 </div>
               </div>
             
               <div className="row mb-4">
                 <div className="col">
-                  <div data-mdb-input-init className="form-outline mb-4">
-                    
-                  <input type="text" id="gender" className="form-control" name="gender" value={user.gender} onChange={handleChange} placeholder="Gender" required />
+                  <div className="form-outline mb-4">
                   <label className="form-label" htmlFor="age">Gender</label>
+                  <input type="text" id="gender" className="form-control border" name="gender" value={user.gender} onChange={handleChange} placeholder="Enter Gender" required />
+                  
               </div>
                 </div>
                 <div className="col">
-                  <div data-mdb-input-init className="form-outline mb-4">
-                    <input type="text" id="age" className="form-control" name="age" value={user.age} onChange={handleChange} placeholder="Age" required />
-                    <label className="form-label" htmlFor="age">Age</label>
+                  <div className="form-outline mb-4">
+                  <label className="form-label" htmlFor="age">Age</label>
+                    <input type="text" id="age" className="form-control border" name="age" value={user.age} onChange={handleChange} placeholder="Enter Age" required />
+                    
                   </div>
                 </div>
               </div>
 
               <div className="row mb-4">
                   <div className="col">
-                      <div data-mdb-input-init className="form-outline mb-4">
-                        <input type="password" id="password" className="form-control" name="password" value={user.password} onChange={handleChange} placeholder="Password" required />
-                        <label className="form-label" for="password">Password</label>
+                      <div className="form-outline mb-4">
+                      <label className="form-label" for="password">Password</label>
+                        <input type="password" id="password" className="form-control border" name="password" value={user.password} onChange={handleChange} placeholder="Enter Password" required />
+                        
                       </div>
                   </div>
                   <div className="col">
-                      <div data-mdb-input-init className="form-outline mb-4">
-                        <input type="password" id="confirmpassword" className="form-control" name="confirmpassword" value={user.confirmpassword} onChange={handleChange} placeholder="Confirm Password" required />
-                        <label className="form-label" for="password">Confirm Password</label>
+                      <div className="form-outline mb-4">
+                      <label className="form-label" for="password">Confirm Password</label>
+                        <input type="password" id="confirmpassword" className="form-control border" name="confirmpassword" value={user.confirmpassword} onChange={handleChange} placeholder="Confirm Password" required />
+                        
                       </div>
                   </div>
                 </div>
 
                 <div className="row mb-4">
                 <div className="col">
-                    <div data-mdb-input-init className="form-outline mb-4">
+                    <div className="form-outline mb-4">
                     <label className="form-label">Roles</label>
                     {availableRoles.map(role => (
                       <div key={role.id} className="form-check">
