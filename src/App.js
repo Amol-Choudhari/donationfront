@@ -35,6 +35,7 @@ function App() {
                     <Route path="/userform/:userId" element={<UserForm />} />
                     <Route path="/manageusers" element={<ManageUsers />} />
                     <Route path="/donationform" element={<DonationForm />} />
+                    <Route path="/donationform/:donationId" element={<DonationForm />} />
 
 
                 </Routes>
