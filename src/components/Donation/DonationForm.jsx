@@ -22,7 +22,7 @@ const DonationForm = () => {
     mobile: '',
     address: '',
     amount: '',
-    donation_type: '',
+    donation_type: 1,
   };
 
   const [donation, setDonation] = useState(initialDonationState);
@@ -71,13 +71,11 @@ const DonationForm = () => {
   // Handle donation selection
   const handleDonationTypeChange = (event) => {
     const { value, checked } = event.target;
-    const selectedDonationTypes = DonationTypes.find(donation => donation.id === parseInt(value));
-    setDonation(prevState => {
-      const updatedDonationTypes = checked
-        ? [...prevState.donation_type, selectedDonationTypes]
-        : prevState.donation_type.filter(donation => donation.id !== parseInt(value));
-      return { ...prevState, donation_type: updatedDonationTypes };
-    });
+    const selectedDonationTypes = DonationTypes.find(donationtype => donationtype.id === parseInt(value));
+    setDonation(prevState => ({
+      ...prevState,
+      donation_type: selectedDonationTypes
+    }));
   };
 
   // Handle form input changes
@@ -104,7 +102,7 @@ const DonationForm = () => {
       mobile: donation.mobile,
       address: donation.address,
       amount: donation.amount,
-      donation_type: donation.donation_type,
+      donation_type: donation.donation_type.id,
     };
 
     axios[method](url, payload,{
@@ -183,18 +181,18 @@ const DonationForm = () => {
                 <div className="col">
                     <div className="form-outline mb-4">
                     <label className="form-label">Donation Type</label>
-                    {DonationTypes.map(donation => (
-                      <div key={donation.id} className="form-check">
+                    {DonationTypes.map(donationtype => (
+                      <div key={donationtype.id} className="form-check">
                         <input
                           className="form-check-input"
-                          type="checkbox"
-                          value={donation.id}
-                          id={`donation-${donation.id}`}
-                          checked={donation.donation_type.some(d => d.id === donation.id)}
+                          type="radio"
+                          value={donationtype.id}
+                          id={`donationtype-${donationtype.id}`}
+                          checked={donationtype.id === donation.donation_type.id}
                           onChange={handleDonationTypeChange}
                         />
-                        <label className="form-check-label" htmlFor={`donation-${donation.id}`}>
-                          {donation.type}
+                        <label className="form-check-label" htmlFor={`donation-${donationtype.id}`}>
+                          {donationtype.type}
                         </label>
                       </div>
                     ))}
