@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'; // Import useParams hook
 import axios from 'axios';
 import NavBar from '../Layout/NavBar';
 import SideBar from '../Layout/SideBar';
+import { useNavigate  } from 'react-router-dom';
 // Initialization for ES Users
 //import { Input, Ripple, initMDB } from "mdb-ui-kit";
 
@@ -22,10 +23,11 @@ const DonationForm = () => {
     mobile: '',
     address: '',
     amount: '',
-    donation_type: 1,
+    donation_type:'',
   };
 
   const [donation, setDonation] = useState(initialDonationState);
+  const navigate = useNavigate (); // Access the history object for navigation
 
   // Function to reset the form state to initial values
   const resetForm = () => {
@@ -94,7 +96,7 @@ const DonationForm = () => {
     }
 
     const method = donationId ? 'put' : 'post';
-    const url = donationId ? `http://localhost:8081/donation/editdonation/${donationId}` : 'http://localhost:8081/donation/adddonation';
+    const url = donationId ? `http://localhost:8081/donation/confirmdonation/${donationId}` : 'http://localhost:8081/donation/adddonation';
 
     // Ensure the JSON payload is correctly structured
     const payload = {
@@ -111,20 +113,17 @@ const DonationForm = () => {
       }
     }) // Pass the user object as data
           .then(response => {
-            if(response.data===true){
+            if(response.data.lastDonaId != null){
               if(donationId){
-                alert("Donation details updated successfully");
+                alert("Donation details Confirmed successfully");
               }else{
                 alert("New Donation added successfully");
+                navigate(`/donationform/${response.data.lastDonaId}`);
+
               }
               
             }else{
               alert("Donation not added. Please try again");
-            }
-
-            if(!donationId){
-              // After successful submission, reset the form
-              resetForm();
             }
         })
       .catch(error => console.error('Error saving the donation', error));
