@@ -28,6 +28,7 @@ const DonationForm = () => {
 
   const [donation, setDonation] = useState(initialDonationState);
   const navigate = useNavigate (); // Access the history object for navigation
+  const [donationConfirmed, setDonationConfirmed] = useState(null);
 
   // Function to reset the form state to initial values
   const resetForm = () => {
@@ -65,7 +66,14 @@ const DonationForm = () => {
           Authorization: `Bearer ${token}` // Assuming your backend expects a Bearer token
         }
       })
-        .then(response => setDonation(response.data))
+        .then(response => 
+          {setDonation(response.data);
+
+            if(response.data.confirmation==="yes"){
+              setDonationConfirmed(response.data.confirmation);
+            }
+            
+          })
         .catch(error => console.error('Error loading the donation details', error));
     }
   }, [donationId,token]);
@@ -116,6 +124,7 @@ const DonationForm = () => {
             if(response.data.lastDonaId != null){
               if(donationId){
                 alert("Donation details Confirmed successfully");
+                navigate(`/donationform/${donationId}`);
               }else{
                 alert("New Donation added successfully");
                 navigate(`/donationform/${response.data.lastDonaId}`);
@@ -187,7 +196,7 @@ const DonationForm = () => {
                           type="radio"
                           value={donationtype.id}
                           id={`donationtype-${donationtype.id}`}
-                          checked={donationtype.id === donation.donation_type.id}
+                          checked={donationtype.id === donation.donation_type}
                           onChange={handleDonationTypeChange}
                         />
                         <label className="form-check-label" htmlFor={`donation-${donationtype.id}`}>
@@ -201,8 +210,16 @@ const DonationForm = () => {
               </div>
       
                 <div className="container">
-                  <div className='col-md-2'>
-                    <button type="submit" className="btn btn-primary btn-block mb-4">{donationId ? 'Update' : 'Add'}</button>
+                  <div className="col-md-4">
+                    {donationConfirmed === "yes" ? (
+                      <button type="submit" className="btn btn-primary btn-block mb-4">
+                        Print Receipt
+                      </button>
+                    ) : (
+                      <button type="submit" className="btn btn-primary btn-block mb-4">
+                        {donationId ? 'Confirm Donation' : 'Add Donation'}
+                      </button>
+                    )}
                   </div>
               </div>
             </form>
