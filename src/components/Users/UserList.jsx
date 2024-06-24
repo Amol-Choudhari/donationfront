@@ -40,7 +40,7 @@ const UserList = () => {
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Title</th>
+                        <th>Mobile</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

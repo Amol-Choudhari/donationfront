@@ -53,12 +53,11 @@ const DonationList = () => {
                             <td>{donation.name}</td>
                             <td>{donation.mobile}</td>
                             <td>{donation.amount}</td>
+                            <td>{donation.by_user}</td>
                             <td>{donation.donation_type}</td>
                             <td>{donation.transaction_no}</td>
                             <td>
-                                <Link to={`/donation/getdonation/${donation.id}`} className="btn btn-info">Details</Link>
-                                <Link to={`/donation/editdonation/${donation.id}`} className="btn btn-secondary">Edit</Link>
-                                <button onClick={() => deleteUser(donation.id)} className="btn btn-danger">Delete</button>
+                                <Link to={`/donationform/${donation.id}`} className="btn btn-secondary">View Details</Link>
                             </td>
                         </tr>
                     ))}
