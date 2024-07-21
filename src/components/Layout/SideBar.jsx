@@ -3,12 +3,15 @@ import './Layout.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 const SideBar = () => {
   const navigate = useNavigate();
+  const token = sessionStorage.getItem('jwtToken');
+  const decodedToken = jwtDecode(token);
+
   const handleLogout = async (event) => {
     event.preventDefault(); // Prevent the default form submission behavior
-    const token = sessionStorage.getItem('jwtToken');
 
     try {
       /*axios.get('http://localhost:8081/logout', {},
@@ -29,7 +32,7 @@ const SideBar = () => {
           <Link to="/mainpage" className="list-group-item list-group-item-action py-2 ripple">
             <i className="fas fa-home fa-fw me-3"></i><span>Home</span>
           </Link>
-          <Link to="/adminprofile" className="list-group-item list-group-item-action py-2 ripple">
+          <Link to={`/userform/${decodedToken.userid}`} className="list-group-item list-group-item-action py-2 ripple">
             <i className="fas fa-regular fa-user-md me-4"></i><span>Profile</span>
           </Link>
           <Link to="/manageusers" className="list-group-item list-group-item-action py-2 ripple">
