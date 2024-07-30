@@ -6,40 +6,197 @@ import { Link } from 'react-router-dom';
 
 const MainPage = () => {
   return (
-    <div className="container-fluid pt-4">  
+      <div>
       <NavBar />
       <div className="row">
-        <div className="col-lg-3">
-          <SideBar />
-        </div>
-        <div className="col-lg-9" style={{ marginTop: '58px' }}>
-          <div className="container">
-            <div className="row justify-content-center">
-              <div className="col-md-4 d-flex align-items-stretch">
-                <div className="card m-2" style={{width: "100%"}}>  {/* Use 100% width for full column usage */}
-                  <img className="card-img-top" src="kisspng-computer-icons-users-group-icon-design-joining-5ae165f181f1d7.5080867215247211375323.png" alt="Card image cap" />
-                  <div className="card-body">
-                    <h5 className="card-title">Users</h5>
-                    <p className="card-text">Look up the users, add users , edit user, delete user, user listing, click to the do the opertaions</p>
-                    <Link to="/manageusers" className="btn btn-primary">Go To Users</Link>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 d-flex align-items-stretch">
-                <div className="card m-2" style={{width: "100%"}}>
-                  <img className="card-img-top" src="vecteezy_donation-box-with-gold-coin-vector-man-giving-charity-to-a_9665129.png" alt="Card image cap" />
-                  <div className="card-body">
-                    <h5 className="card-title">Donations</h5>
-                    <p className="card-text">Donation related information, click to proceed</p>
-                    <Link to="/donation" className="btn btn-primary">Go to Donations</Link>
-                    </div>
-                </div>
-              </div>
-              
-            </div>
+        <div className="col-lg-2">
+            <SideBar />
           </div>
+          <div className="col-lg-10">
+            <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"></nav>
+
+            <div className="container-fluid">
+
+                    
+                    <div className="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 className="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <a href="#" className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                className="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                    </div>
+
+                    
+                    <div className="row">
+
+                        
+                        <div className="col-xl-3 col-md-6 mb-4">
+                            <div className="card border-left-primary shadow h-100 py-2">
+                                <div className="card-body">
+                                    <div className="row no-gutters align-items-center">
+                                        <div className="col mr-2">
+                                            <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Earnings (Monthly)</div>
+                                            <div className="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                        </div>
+                                        <div className="col-auto">
+                                            <i className="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div className="col-xl-3 col-md-6 mb-4">
+                            <div className="card border-left-success shadow h-100 py-2">
+                                <div className="card-body">
+                                    <div className="row no-gutters align-items-center">
+                                        <div className="col mr-2">
+                                            <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Earnings (Annual)</div>
+                                            <div className="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                        </div>
+                                        <div className="col-auto">
+                                            <i className="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div className="col-xl-3 col-md-6 mb-4">
+                            <div className="card border-left-info shadow h-100 py-2">
+                                <div className="card-body">
+                                    <div className="row no-gutters align-items-center">
+                                        <div className="col mr-2">
+                                            <div className="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                                            </div>
+                                            <div className="row no-gutters align-items-center">
+                                                <div className="col-auto">
+                                                    <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                                </div>
+                                                <div className="col">
+                                                    <div className="progress progress-sm mr-2">
+                                                        <div className="progress-bar bg-info" role="progressbar"
+                                                            style={{ width: '50%' }} aria-valuenow="50" aria-valuemin="0"
+                                                            aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-auto">
+                                            <i className="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div className="col-xl-3 col-md-6 mb-4">
+                            <div className="card border-left-warning shadow h-100 py-2">
+                                <div className="card-body">
+                                    <div className="row no-gutters align-items-center">
+                                        <div className="col mr-2">
+                                            <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Pending Requests</div>
+                                            <div className="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                        </div>
+                                        <div className="col-auto">
+                                            <i className="fas fa-comments fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                    <div className="row">
+
+                        
+                        <div className="col-xl-8 col-lg-7">
+                            <div className="card shadow mb-4">
+                                
+                                <div
+                                    className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 className="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                                    <div className="dropdown no-arrow">
+                                        <a className="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div className="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div className="dropdown-header">Dropdown Header:</div>
+                                            <a className="dropdown-item" href="#">Action</a>
+                                            <a className="dropdown-item" href="#">Another action</a>
+                                            <div className="dropdown-divider"></div>
+                                            <a className="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="card-body">
+                                    <div className="chart-area">
+                                        <canvas id="myAreaChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div className="col-xl-4 col-lg-5">
+                            <div className="card shadow mb-4">
+                                
+                                <div
+                                    className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 className="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                                    <div className="dropdown no-arrow">
+                                        <a className="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div className="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div className="dropdown-header">Dropdown Header:</div>
+                                            <a className="dropdown-item" href="#">Action</a>
+                                            <a className="dropdown-item" href="#">Another action</a>
+                                            <div className="dropdown-divider"></div>
+                                            <a className="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="card-body">
+                                    <div className="chart-pie pt-4 pb-2">
+                                        <canvas id="myPieChart"></canvas>
+                                    </div>
+                                    <div className="mt-4 text-center small">
+                                        <span className="mr-2">
+                                            <i className="fas fa-circle text-primary"></i> Direct
+                                        </span>
+                                        <span className="mr-2">
+                                            <i className="fas fa-circle text-success"></i> Social
+                                        </span>
+                                        <span classNameName="mr-2">
+                                            <i className="fas fa-circle text-info"></i> Referral
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+          
         </div>
-      </div>
+    </div>
+    </div>
+    </div>
     </div>
   );
 }

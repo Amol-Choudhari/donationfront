@@ -26,37 +26,59 @@ const SideBar = () => {
   };
 
   return (
-    <nav id="sidebarMenu" className="collapse d-lg-block sidebar collapse bg-white">
-      <div className="position-sticky">
-        <div className="list-group list-group-flush mx-3 mt-4">
-          <Link to="/mainpage" className="list-group-item list-group-item-action py-2 ripple">
-            <i className="fas fa-home fa-fw me-3"></i><span>Home</span>
-          </Link>
-          <Link to={`/userform/${decodedToken.userid}`} className="list-group-item list-group-item-action py-2 ripple">
-            <i className="fas fa-regular fa-user-md me-4"></i><span>Profile</span>
-          </Link>
-          <Link to="/manageusers" className="list-group-item list-group-item-action py-2 ripple">
-            <i className="fas fa-regular fa-users me-3"></i><span>Users</span>
-          </Link>
-          <Link to="/donation" className="list-group-item list-group-item-action py-2 ripple">           
-            <i className="fas fa-inr fa-fw me-3"></i><span>Donations</span>
-          </Link>
-          <Link to="/report" className="list-group-item list-group-item-action py-2 ripple">
-            <i className="fas fa-file-text fa-fw me-3"></i><span>Reports</span>
-          </Link>
-          <Link to="/manualbackup" className="list-group-item list-group-item-action py-2 ripple">
-            <i className="fas fa-database fa-fw me-3"></i><span>Backup</span>
-          </Link>
-          <Link to="/masters" className="list-group-item list-group-item-action py-2 ripple">
-            <i className="fas fa-table fa-fw me-3"></i><span>Masters</span>
-          </Link>
-          <Link to="/logout" className="list-group-item list-group-item-action py-2 ripple">
-            <i className="fas fa-power-off me-3"></i><span onClick={handleLogout}>Logout</span>
-          </Link>
-          {/* Add more list items here */}
-        </div>
-      </div>
-    </nav>
+    <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/mainpage">
+                <div class="sidebar-brand-text mx-3">Jai Guru Mauli</div>
+            </a>
+      <li className="nav-item active">
+        <Link className="nav-link" to="/mainpage">
+          <i className="fas fa-home fa-fw me-3"></i>
+          <span>Home</span>
+        </Link>
+      </li>
+      <li className="nav-item active">
+        <Link className="nav-link" to={`/userform/${decodedToken.userid}`}>
+          <i className="fas fa-regular fa-user-md me-4"></i>
+          <span>Profile</span>
+        </Link>
+      </li>
+      <li className="nav-item active">
+        <Link className="nav-link" to="/manageusers">
+          <i className="fas fa-regular fa-users me-3"></i>
+          <span>Users</span>
+        </Link>
+      </li>
+      <li className="nav-item active">
+        <Link className="nav-link" to="/donation">
+          <i className="fas fa-inr fa-fw me-3"></i>
+          <span>Donations</span>
+        </Link>
+      </li>
+      <li className="nav-item active">
+        <Link className="nav-link" to="/report">
+          <i className="fas fa-file-text fa-fw me-3"></i>
+          <span>Reports</span>
+        </Link>
+      </li>
+      <li className="nav-item active">
+        <Link className="nav-link" to="/manualbackup">
+          <i className="fas fa-database fa-fw me-3"></i>
+          <span>Backup</span>
+        </Link>
+      </li>
+      <li className="nav-item active">
+        <Link className="nav-link" to="/masters">
+          <i className="fas fa-table fa-fw me-3"></i>
+          <span>Masters</span>
+        </Link>
+      </li>
+      <li className="nav-item active">
+        <Link className="nav-link" to="/logout">
+          <i className="fas fa-power-off me-3"></i>
+          <span>Logout</span>
+        </Link>
+      </li>
+    </ul>
   );
 }
 
