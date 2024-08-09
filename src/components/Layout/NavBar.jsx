@@ -6,7 +6,9 @@ import logo from './anasuyamata-logo.png';
 const Navbar = () => {
   return (
     <nav id="main-navbar" className="navbar navbar-expand-lg navbar-light bg-white fixed-top">
-      <div className="container-fluid">
+      {
+        /*
+         <div className="container-fluid">
         <img src={logo}
                 className="rounded-circle"
                 height="70"
@@ -27,6 +29,9 @@ const Navbar = () => {
                 border="1"
               />
       </div>
+        */
+      }
+     
     </nav>
   );
 }

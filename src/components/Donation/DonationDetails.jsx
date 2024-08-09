@@ -12,7 +12,7 @@ const DonationDetails = ({ match }) => {
     }, []);
 
     const fetchUser = () => {
-        axios.get(`http://localhost:8080/api/users/${match.params.userId}`)
+        axios.get(`http://10.158.81.43:8080/api/users/${match.params.userId}`)
             .then(response => {
                 setUser(response.data);
                 setLoading(false);
@@ -50,7 +50,7 @@ const DonationDetails = ({ match }) => {
 };
 
 const deleteUser = (userId) => {
-    axios.delete(`http://localhost:8080/api/users/${userId}`)
+    axios.delete(`http://10.158.81.43:8080/api/users/${userId}`)
         .then(() => {
             alert('User deleted successfully!');
             // Redirect or update UI accordingly

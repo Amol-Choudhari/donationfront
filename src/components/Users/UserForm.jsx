@@ -42,7 +42,7 @@ const UserForm = () => {
 
   const fetchRoles = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:8081/master/roles/fetchall',{
+      const response = await axios.get('http://10.158.81.43:8081/master/roles/fetchall',{
         headers: {
           Authorization: `Bearer ${token}` // Assuming your backend expects a Bearer token
         }
@@ -61,7 +61,7 @@ const UserForm = () => {
   // Load user details if userId is provided (for edit mode)
   useEffect(() => {
     if (userId) {
-      axios.get(`http://localhost:8081/user/getuser/${userId}`,{
+      axios.get(`http://10.158.81.43:8081/user/getuser/${userId}`,{
         headers: {
           Authorization: `Bearer ${token}` // Assuming your backend expects a Bearer token
         }
@@ -104,7 +104,7 @@ const UserForm = () => {
     }
 
     const method = userId ? 'put' : 'post';
-    const url = userId ? `http://localhost:8081/user/edituser/${userId}` : 'http://localhost:8081/user/adduser';
+    const url = userId ? `http://10.158.81.43:8081/user/edituser/${userId}` : 'http://10.158.81.43:8081/user/adduser';
 
     // Ensure the JSON payload is correctly structured
     const payload = {

@@ -21,7 +21,7 @@ const DonationForm = ({ donationId, refreshUsers }) => {
   // Load user details if userId is provided (for edit mode)
   useEffect(() => {
     if (donationId) {
-      axios.get(`http://localhost:8080/api/donation/getdonations/${donationId}`)
+      axios.get(`http://10.158.81.43:8080/api/donation/getdonations/${donationId}`)
         .then(response => setUser(response.data))
         .catch(error => console.error('Error loading the user details', error));
     }
@@ -40,7 +40,7 @@ const DonationForm = ({ donationId, refreshUsers }) => {
     const token = sessionStorage.getItem('jwtToken');
     event.preventDefault();
     const method = donationId ? 'put' : 'post';
-    const url = donationId ? `http://localhost:8081/donation/getdonation/${donationId}` : 'http://localhost:8081/donation/getdonations';
+    const url = donationId ? `http://10.158.81.43:8081/donation/getdonation/${donationId}` : 'http://10.158.81.43:8081/donation/getdonations';
 
     axios[method](url, donation,{
       headers: {

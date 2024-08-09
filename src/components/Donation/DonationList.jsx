@@ -14,7 +14,7 @@ const DonationList = () => {
         const token = sessionStorage.getItem('jwtToken');
 
         if (token) {
-            axios.get('http://localhost:8081/donation/getdonations', {
+            axios.get('http://10.158.81.43:8081/donation/getdonations', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -68,7 +68,7 @@ const DonationList = () => {
 };
 
 const deleteUser = (donationId) => {
-    axios.delete(`http://localhost:8080/api/donation/deletedonation/${donationId}`)
+    axios.delete(`http://10.158.81.43:8080/api/donation/deletedonation/${donationId}`)
         .then(() => {
             alert('User deleted successfully');
             // Optionally refresh the list

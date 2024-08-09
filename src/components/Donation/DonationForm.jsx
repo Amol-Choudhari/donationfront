@@ -42,7 +42,7 @@ const DonationForm = () => {
 
   const fetchDonationTypes = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:8081/master/donationtype/fetchall',{
+      const response = await axios.get('http://10.158.81.43:8081/master/donationtype/fetchall',{
         headers: {
           Authorization: `Bearer ${token}` // Assuming your backend expects a Bearer token
         }
@@ -61,7 +61,7 @@ const DonationForm = () => {
   // Load donation details if userId is provided (for edit mode)
   useEffect(() => {
     if (donationId) {
-      axios.get(`http://localhost:8081/donation/getdonation/${donationId}`,{
+      axios.get(`http://10.158.81.43:8081/donation/getdonation/${donationId}`,{
         headers: {
           Authorization: `Bearer ${token}` // Assuming your backend expects a Bearer token
         }
@@ -104,7 +104,7 @@ const DonationForm = () => {
     }
 
     const method = donationId ? 'put' : 'post';
-    const url = donationId ? `http://localhost:8081/donation/confirmdonation/${donationId}` : 'http://localhost:8081/donation/adddonation';
+    const url = donationId ? `http://10.158.81.43:8081/donation/confirmdonation/${donationId}` : 'http://10.158.81.43:8081/donation/adddonation';
 
     // Ensure the JSON payload is correctly structured
     const payload = {

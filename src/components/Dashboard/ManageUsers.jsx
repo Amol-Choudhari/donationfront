@@ -17,7 +17,7 @@ const ManageUsers = () => {
 
     // If the token exists, include it in the request headers
     if (token) {
-      axios.get('http://localhost:8081/user/getusers', {
+      axios.get('http://10.158.81.43:8081/user/getusers', {
         headers: {
           Authorization: `Bearer ${token}` // Assuming your backend expects a Bearer token
         }

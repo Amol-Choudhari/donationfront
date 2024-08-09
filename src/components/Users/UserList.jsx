@@ -14,7 +14,7 @@ const UserList = () => {
         const token = sessionStorage.getItem('jwtToken');
 
         if (token) {
-            axios.get('http://localhost:8081/user/getusers', {
+            axios.get('http://10.158.81.43:8081/user/getusers', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -63,7 +63,7 @@ const UserList = () => {
 };
 
 const deleteUser = (userId) => {
-    axios.delete(`http://localhost:8080/api/users/${userId}`)
+    axios.delete(`http://10.158.81.43:8080/api/users/${userId}`)
         .then(() => {
             alert('User deleted successfully');
             // Optionally refresh the list
