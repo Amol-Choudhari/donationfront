@@ -69,28 +69,23 @@ function LoginPage() {
     return (
         <MDBContainer className="my-5 gradient-form">
             <form onSubmit={handleLogin}>
-            <MDBRow>
-                <MDBCol col='5' className="mb-5" style={{ maxWidth: '35%', margin: 'auto', marginTop: '5rem',border: '2px solid #ccc', borderRadius: '5px'}}>
-                <div className="d-flex flex-column">
+                <MDBRow>
+                    <MDBCol col='5' className="mb-5" style={{ maxWidth: '35%', margin: 'auto', marginTop: '5rem',border: '2px solid #ccc', borderRadius: '5px'}}>
+                        <div className="d-flex flex-column">
+                            <p className='mt-6'>Please login to your account</p>
+                            <MDBInput wrapperClass='mb-4' label='Username' id='form1' type='text' onChange={(e) => setUsername(e.target.value)} />
+                            <div className="invalid-feedback">Please enter username.</div>
+                            
+                            <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password' onChange={(e) => setPassword(e.target.value)} />  
+                            <div className="invalid-feedback">Please enter password.</div>
 
-                <p className='mt-6'>Please login to your account</p>
-
-                <MDBInput wrapperClass='mb-4' label='Username' id='form1' type='text'
-                            onChange={(e) => setUsername(e.target.value)} />
-                <div className="invalid-feedback">Please enter username.</div>
-                
-                <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password'
-                            onChange={(e) => setPassword(e.target.value)} />  
-                <div className="invalid-feedback">Please enter password.</div>
-
-                <div className="text-center pt-1 mb-5 pb-1">
-                    <MDBBtn className="mb-4 w-100 gradient-custom-2 data-mdb-ripple-init">Sign in</MDBBtn>
-                    <a className="text-muted" href="#!">Forgot password?</a>
-                </div>
-
-                </div>
-            </MDBCol>
-            </MDBRow>
+                            <div className="text-center pt-1 mb-5 pb-1">
+                                <MDBBtn className="mb-4 w-100 gradient-custom-2 data-mdb-ripple-init">Sign in</MDBBtn>
+                                <a className="text-muted" href="#!">Forgot password?</a>
+                            </div>
+                        </div>
+                    </MDBCol>
+                </MDBRow>
             </form>
         </MDBContainer>
     );

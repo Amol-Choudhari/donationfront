@@ -61,4 +61,4 @@ const deleteUser = (userId) => {
         });
 };
 
-export default UserDetails;
+export default DonationDetails;
