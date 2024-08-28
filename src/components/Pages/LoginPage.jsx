@@ -23,7 +23,7 @@ function LoginPage() {
         }
 
         try {
-            const response = await axios.post('http://10.158.81.43:8081/auth/login', {
+            const response = await axios.post('http://localhost:8081/auth/login', {
                 username: username,
                 password: password
             },{'Content-Type':'application/json'});

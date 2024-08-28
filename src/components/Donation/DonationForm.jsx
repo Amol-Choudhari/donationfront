@@ -38,7 +38,7 @@ const DonationForm = () => {
 
     const fetchDonationTypes = useCallback(async () => {
         try {
-            const response = await axios.get('http://10.158.81.43:8081/master/donationtype/fetchall',{
+            const response = await axios.get('http://localhost:8081/master/donationtype/fetchall',{
                 headers: {
                 Authorization: `Bearer ${token}` // Assuming your backend expects a Bearer token
                 }
@@ -58,7 +58,7 @@ const DonationForm = () => {
     // Load donation details if userId is provided (for edit mode)
     useEffect(() => {
         if (donationId) {
-            axios.get(`http://10.158.81.43:8081/donation/getdonation/${donationId}`,{
+            axios.get(`http://localhost:8081/donation/getdonation/${donationId}`,{
                 headers: {
                 Authorization: `Bearer ${token}` // Assuming your backend expects a Bearer token
                 }
@@ -98,7 +98,7 @@ const DonationForm = () => {
         }
 
         const method = donationId ? 'put' : 'post';
-        const url = donationId ? `http://10.158.81.43:8081/donation/confirmdonation/${donationId}` : 'http://10.158.81.43:8081/donation/adddonation';
+        const url = donationId ? `http://localhost:8081/donation/confirmdonation/${donationId}` : 'http://localhost:8081/donation/adddonation';
 
         // Ensure the JSON payload is correctly structured
         const payload = {
@@ -150,13 +150,31 @@ const DonationForm = () => {
                                 <div className="col">
                                     <div className="form-outline">
                                         <label className="form-label" htmlFor="name">Name</label>
-                                        <input type="text" id="name" className="form-control border" name="name" value={donation.name} onChange={handleChange} placeholder="Enter Name" required />
+                                        <input 
+                                            type="text" 
+                                            id="name" 
+                                            className="form-control border" 
+                                            name="name" 
+                                            value={donation.name} 
+                                            onChange={handleChange} 
+                                            placeholder="Enter Name" 
+                                            required 
+                                        />
                                     </div>
                                 </div>
                                 <div className="col">
                                     <div className="form-outline mb-4">
                                         <label className="form-label" htmlFor="mobile">Mobile</label>
-                                        <input type="tel" id="mobile" className="form-control border" name="mobile" value={donation.mobile} onChange={handleChange} placeholder="Enter Mobile No." required />
+                                        <input 
+                                            type="tel" 
+                                            id="mobile" 
+                                            className="form-control border"
+                                            name="mobile"
+                                            value={donation.mobile}
+                                            onChange={handleChange}
+                                            placeholder="Enter Mobile No."
+                                            required
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -165,13 +183,31 @@ const DonationForm = () => {
                                 <div className="col">
                                     <div className="form-outline mb-4">
                                         <label className="form-label" htmlFor="address">Address</label>
-                                        <input type="text" id="address" className="form-control border" name="address" value={donation.address} onChange={handleChange} placeholder="Enter Address" required />           
+                                        <input 
+                                            type="text" 
+                                            id="address" 
+                                            className="form-control border" 
+                                            name="address" 
+                                            value={donation.address} 
+                                            onChange={handleChange} 
+                                            placeholder="Enter Address" 
+                                            required    
+                                        />           
                                     </div>
                                 </div>
                                 <div className="col">
                                     <div className="form-outline mb-4">
                                         <label className="form-label" htmlFor="amount">Amount</label>
-                                        <input type="text" id="amount" className="form-control border" name="amount" value={donation.amount} onChange={handleChange} placeholder="Enter Amount" required />                 
+                                        <input 
+                                            type="text" 
+                                            id="amount" 
+                                            className="form-control border" 
+                                            name="amount" 
+                                            value={donation.amount} 
+                                            onChange={handleChange} 
+                                            placeholder="Enter Amount" 
+                                            required 
+                                        />                 
                                     </div>
                                 </div>
                             </div>
@@ -179,7 +215,7 @@ const DonationForm = () => {
                             <div className="row mb-4">
                                 <div className="col">
                                     <div className="form-outline mb-4">
-                                        <label className="form-label">Donation Type</label>
+                                        <label className="form-label" htmlFor="donationtype">Donation Type</label>
                                         {DonationTypes.map(donationtype => (
                                             <div key={donationtype.id} className="form-check">
                                                 <input
@@ -191,7 +227,7 @@ const DonationForm = () => {
                                                     onChange={handleDonationTypeChange}
                                                 />
                                                 <label className="form-check-label" htmlFor={`donation-${donationtype.id}`}>
-                                                    {donationtype.type}
+                                                    {donationtype.donation_type}
                                                 </label>
                                             </div>
                                         ))}

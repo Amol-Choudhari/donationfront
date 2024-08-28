@@ -12,7 +12,8 @@ import MasterPage from './components/Dashboard/MasterPage';
 import ManageUsers from './components/Dashboard/ManageUsers';
 import UserForm from './components/Users/UserForm';
 import DonationForm from './components/Donation/DonationForm';
-
+import ListAllMasters from './components/Master/ListAllMasters';
+import AddMaster from './components/Master/AddMaster';
 
 function App() {
     return (
@@ -35,7 +36,8 @@ function App() {
                     <Route path="/manageusers" element={<ManageUsers />} />
                     <Route path="/donationform" element={<DonationForm />} />
                     <Route path="/donationform/:donationId" element={<DonationForm />} />
-
+                    <Route path="/list-all-masters" element={<ListAllMasters />} />
+                    <Route path="/add-master" element={<AddMaster />} />
 
                 </Routes>
                 <Footer />

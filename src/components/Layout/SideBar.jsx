@@ -10,7 +10,7 @@ const SideBar = () => {
     
     // Check if token exists before decoding
     const decodedToken = token ? jwtDecode(token) : null;
-    console.log(token);
+    
     const handleLogout = () => {
         sessionStorage.removeItem('jwtToken');
         navigate('/login');
