@@ -27,8 +27,8 @@ const SideBar = () => {
 
   return (
     <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/mainpage">
-                <div class="sidebar-brand-text mx-3">Jai Guru Mauli</div>
+      <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/mainpage">
+                <div className="sidebar-brand-text mx-3">Jai Guru Mauli</div>
             </a>
       <li className="nav-item active">
         <Link className="nav-link" to="/mainpage">
