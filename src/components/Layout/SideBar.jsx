@@ -22,8 +22,7 @@ const SideBar = () => {
     return (
         <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/mainpage">
-                {/* Optionally uncomment and adjust if needed */}
-                {/* <div className="sidebar-brand-text mx-3">Jai Guru Mauli</div> */}
+                <div className="sidebar-brand-text mx-3">Jai Guru Mauli</div>
             </a>
 
             {/* Refactored list items with isActive function */}
