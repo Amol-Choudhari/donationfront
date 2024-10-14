@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/SiteElements/Header'; // Make sure the path is correct
 import Footer from './components/SiteElements/Footer'; // Make sure the path is correct
-import HomePage from './components/Pages/HomePage';
 import LoginPage from './components/Pages/LoginPage';
 import About from './components/Pages/About';
 import Register from "./components/Pages/Register";
@@ -13,7 +12,8 @@ import MasterPage from './components/Dashboard/MasterPage';
 import ManageUsers from './components/Dashboard/ManageUsers';
 import UserForm from './components/Users/UserForm';
 import DonationForm from './components/Donation/DonationForm';
-
+import ListAllMasters from './components/Master/ListAllMasters';
+import AddMaster from './components/Master/AddMaster';
 
 function App() {
     return (
@@ -36,7 +36,8 @@ function App() {
                     <Route path="/manageusers" element={<ManageUsers />} />
                     <Route path="/donationform" element={<DonationForm />} />
                     <Route path="/donationform/:donationId" element={<DonationForm />} />
-
+                    <Route path="/list-all-masters" element={<ListAllMasters />} />
+                    <Route path="/add-master" element={<AddMaster />} />
 
                 </Routes>
                 <Footer />
