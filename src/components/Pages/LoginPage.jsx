@@ -26,7 +26,7 @@ function LoginPage() {
         username: username,
         password: password
       },{'Content-Type':'application/json'});
-      console.log(response.data.jwtToken); // Log or store the JWT token as needed
+      //console.log(response.data.jwtToken); // Log or store the JWT token as needed
 
       if(response.data.jwtToken==null){
         alert('Login Failed.. Please try again');

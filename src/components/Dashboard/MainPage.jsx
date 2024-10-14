@@ -13,10 +13,10 @@ const MainPage = () => {
             <SideBar />
           </div>
           <div className="col-lg-10">
-            <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content-wrapper" className="d-flex flex-column">
             <div id="content">
 
-            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"></nav>
+            <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"></nav>
 
             <div className="container-fluid">
 
@@ -122,8 +122,7 @@ const MainPage = () => {
                         <div className="col-xl-8 col-lg-7">
                             <div className="card shadow mb-4">
                                 
-                                <div
-                                    className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 className="m-0 font-weight-bold text-primary">Earnings Overview</h6>
                                     <div className="dropdown no-arrow">
                                         <a className="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -183,7 +182,7 @@ const MainPage = () => {
                                         <span className="mr-2">
                                             <i className="fas fa-circle text-success"></i> Social
                                         </span>
-                                        <span classNameName="mr-2">
+                                        <span className="mr-2">
                                             <i className="fas fa-circle text-info"></i> Referral
                                         </span>
                                     </div>
