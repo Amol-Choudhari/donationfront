@@ -89,6 +89,7 @@ function LoginPage() {
             </form>
         </MDBContainer>
     );
+
 }
 
 export default LoginPage;
