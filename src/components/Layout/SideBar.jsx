@@ -11,7 +11,8 @@ const SideBar = () => {
     // Check if token exists before decoding
     const decodedToken = token ? jwtDecode(token) : null;
     
-    const handleLogout = () => {
+    const handleLogout = async (event) => {
+        event.preventDefault();
         sessionStorage.removeItem('jwtToken');
         navigate('/login');
     };

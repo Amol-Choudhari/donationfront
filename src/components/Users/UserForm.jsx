@@ -5,9 +5,12 @@ import NavBar from '../Layout/NavBar';
 import SideBar from '../Layout/SideBar';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import useAuth from '../Authentication/useAuth';
 
 
 const UserForm = () => {
+
+    useAuth();
   
     const params = useParams(); // Use useParams hook
     const userId = params.userId; // Extract userId from params object
