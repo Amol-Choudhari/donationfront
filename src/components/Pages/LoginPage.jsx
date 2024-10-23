@@ -1,95 +1,87 @@
 import React, { useState } from 'react';
-import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdb-react-ui-kit';
+import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBInput} from 'mdb-react-ui-kit'; // Added MDBAlert
 import './LoginPage.css';
-import axios from 'axios';  // Axios imported correctly
-import { useNavigate } from 'react-router-dom';  // useNavigate imported correctly
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { Input, Ripple, initMDB } from "mdb-ui-kit";
-
 
 function LoginPage() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate(); // useNavigate used for navigation after login
+    const [isLoading, setIsLoading] = useState(false);   
+    const [error, setError] = useState(null); 
+
+    const navigate = useNavigate();
 
     const handleLogin = async (event) => {
+        event.preventDefault();
 
-        event.preventDefault(); // Prevent the default form submission behavior
+        setError(null);
 
-        // Check if email or password is empty
+        // Check if username or password is empty before setting isLoading
         if (!username || !password) {
-            alert('Both Username and Password are required.');
+            setError('Both Username and Password are required.');
             return;  // Stop the function if validation fails
         }
+
+        setIsLoading(true);
 
         try {
             const response = await axios.post('http://localhost:8081/auth/login', {
                 username: username,
                 password: password
-            },{'Content-Type':'application/json'});
-            console.log(response.data.jwtToken); // Log or store the JWT token as needed
+            }, {'Content-Type': 'application/json'});
 
-            if(response.data.jwtToken==null){
-                alert('Login Failed.. Please try again');
-                return;
-            }else{
-                // Storing JWT token in session storage
+            console.log(response.data.jwtToken);
+
+            if (response.data.jwtToken == null) {
+                setError('Login Failed. Please try again.');
+            } else {
                 sessionStorage.setItem('jwtToken', response.data.jwtToken);
-
-                // use below line to Retrieving JWT token from session storage
-                //const token = sessionStorage.getItem('jwtToken');
-                navigate('/mainpage'); // Navigate to homepage or dashboard after login
+                navigate('/mainpage'); // Redirect after successful login
             }
-            
         } catch (error) {
             console.error('Login failed:', error.response || error.message);
+            setError('Login failed. Please try again.');
+        } finally {
+            setIsLoading(false); // Reset loading state
         }
     };
 
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-
     initMDB({ Input, Ripple });
-
-    (() => {
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        const forms = document.querySelectorAll('.needs-validation');
-
-        // Loop over them and prevent submission
-        Array.prototype.slice.call(forms).forEach((form) => {
-            form.addEventListener('submit', (event) => {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-            }, false);
-        });
-    })();
 
     return (
         <MDBContainer className="my-5 gradient-form">
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleLogin} className="needs-validation" noValidate>
                 <MDBRow>
-                    <MDBCol col='5' className="mb-5" style={{ maxWidth: '35%', margin: 'auto', marginTop: '5rem',border: '2px solid #ccc', borderRadius: '5px'}}>
+                    <MDBCol col='5' className="mb-5" style={{ maxWidth: '35%', margin: 'auto', marginTop: '5rem', border: '2px solid #ccc', borderRadius: '5px' }}>
                         <div className="d-flex flex-column">
                             <p className='mt-6'>Please login to your account</p>
-                            <MDBInput wrapperClass='mb-4' label='Username' id='form1' type='text' onChange={(e) => setUsername(e.target.value)} />
+                            <MDBInput wrapperClass='mb-4' label='Username' id='form1' type='text' required value={username} onChange={(e) => setUsername(e.target.value)} />
                             <div className="invalid-feedback">Please enter username.</div>
-                            
-                            <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password' onChange={(e) => setPassword(e.target.value)} />  
+
+                            <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password' required value={password} onChange={(e) => setPassword(e.target.value)} />
                             <div className="invalid-feedback">Please enter password.</div>
 
                             <div className="text-center pt-1 mb-5 pb-1">
-                                <MDBBtn className="mb-4 w-100 gradient-custom-2 data-mdb-ripple-init">Sign in</MDBBtn>
+                                <MDBBtn type="submit" className="mb-4 w-100 gradient-custom-2" disabled={isLoading}>
+                                    {isLoading ? 'Loading...' : 'Sign in'}
+                                </MDBBtn>
                                 <a className="text-muted" href="#!">Forgot password?</a>
                             </div>
+                            {/* Custom Alert for displaying error */}
+                            {error && (
+                                <div className="alert alert-danger text-center" role="alert">
+                                    {error}
+                                </div>
+                            )}
                         </div>
                     </MDBCol>
                 </MDBRow>
             </form>
         </MDBContainer>
     );
-
 }
 
 export default LoginPage;
