@@ -15,6 +15,8 @@ import DonationForm from './components/Donation/DonationForm';
 import ListAllMasters from './components/Master/ListAllMasters';
 import AddMaster from './components/Master/AddMaster';
 import AuthWrapper from './components/Authentication/AuthWrapper';
+import ChangePassword from './components/Authentication/ChangePassword';
+
 
 function App() {
     return (
@@ -32,7 +34,7 @@ function App() {
                         <Route path="/report" element={<ReportPage />} />
                         <Route path="/masters" element={<MasterPage />} />
                         <Route path="/manageusers" element={<ManageUsers />} />
-
+                        <Route path="/changePassword" element={<ChangePassword />} />
                         <Route path="/userform" element={<UserForm />} />
                         <Route path="/userform/:userId" element={<UserForm />} />
                         <Route path="/manageusers" element={<ManageUsers />} />

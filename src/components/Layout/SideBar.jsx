@@ -79,8 +79,15 @@ const SideBar = () => {
                 </Link>
             </li>
 
+            <li className={getNavItemClass('/changePassword')}>
+                <Link className="nav-link" to="/changePassword">
+                    <i className="fas fa-table fa-fw me-3"></i>
+                    <span>Change Password</span>
+                </Link>
+            </li>
+
             <li className="nav-item">
-                <button 
+                <button
                     className="nav-link btn btn-link text-left"
                     onClick={handleLogout}
                 >
