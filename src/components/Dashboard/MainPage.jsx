@@ -6,8 +6,11 @@ import { Link } from 'react-router-dom';
 import Card from '../NewElements/Card'
 import axios from 'axios';
 import ChartMonthly from '../NewElements/ChartMonthly';
+import useAuth from '../Authentication/useAuth';
 
 const MainPage = () => {
+    
+    //useAuth();
 
     const [values, setValues] = useState({
         monthlyEarnings: "₹0", 
@@ -16,6 +19,7 @@ const MainPage = () => {
     });
 
     useEffect(() => {
+
         const fetchValues = async () => {
             try {
                 const token = sessionStorage.getItem('jwtToken'); // Retrieve the token from sessionStorage
