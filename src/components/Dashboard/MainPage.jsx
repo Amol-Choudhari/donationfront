@@ -6,11 +6,8 @@ import { Link } from 'react-router-dom';
 import Card from '../NewElements/Card'
 import axios from 'axios';
 import ChartMonthly from '../NewElements/ChartMonthly';
-import useAuth from '../Authentication/useAuth';
 
 const MainPage = () => {
-    
-    //useAuth();
 
     const [values, setValues] = useState({
         monthlyEarnings: "₹0", 
@@ -18,11 +15,13 @@ const MainPage = () => {
         pendingRequests: 0,
     });
 
+    // Get the token from the session storage
+    const token = sessionStorage.getItem('jwtToken');
+
     useEffect(() => {
 
         const fetchValues = async () => {
             try {
-                const token = sessionStorage.getItem('jwtToken'); // Retrieve the token from sessionStorage
     
                 const response = await axios.get('http://localhost:8081/user/getusers', {
                     headers: {
@@ -43,8 +42,7 @@ const MainPage = () => {
         };
     
         fetchValues();
-    }, []);
-    
+    }, [token]);
 
     // Static data with fetched values for "value" fields
     const cardData = [
