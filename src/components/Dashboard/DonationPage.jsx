@@ -1,38 +1,81 @@
 import NavBar from '../Layout/NavBar';
 import SideBar from '../Layout/SideBar';
-import { useForm } from 'react-hook-form'; // Example using react-hook-form
-import DonationList from '../Donation/DonationList'; // Import DonationList component
+import DonationList from '../Donation/DonationList';
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const DonationPage = () => {
-
-    const [donation, setDonation] = useState([]);
-    const [selectedUser, setSelectedUser] = useState(null);
+    const [donations, setDonations] = useState([]);
+    const [donationTypes, setDonationTypes] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Fetch donation data from your backend API
         fetchDonations();
+        fetchDonationTypes();
     }, []);
-        
-    const fetchDonations = async () => {
-        let fetchedDonationData; // Declare a variable to hold fetched data
-        try {
-            // Make your API call using fetch or axios
-            const response = await fetch('http://your-api-endpoint');
-            fetchedDonationData = await response.json(); // Parse the response
 
-            // Update the donation state with fetched data
-            setDonation(fetchedDonationData);
-        } catch (error) {
-            console.error('Error fetching donations:', error);
-            // Handle errors appropriately (e.g., display error message to user)
+    const fetchDonations = () => {
+        const token = sessionStorage.getItem('jwtToken');
+        if (token) {
+            axios.get('http://localhost:8081/donation/getdonations', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                setDonations(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error('Error fetching donations:', error);
+                setLoading(false);
+            });
+        } else {
+            console.error('Token not found in session storage');
+            setLoading(false);
         }
     };
-  
-    
 
+    const fetchDonationTypes = () => {
+        const token = sessionStorage.getItem('jwtToken');
+        if (token) {
+            axios.get('http://localhost:8081/master/donationtype/fetchall', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                setDonationTypes(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching donation types:', error);
+            });
+        } else {
+            console.error('Token not found in session storage');
+        }
+    };
 
-    // Check if the current pathname matches the donation page path
+    const deleteDonation = (donationId) => {
+        const token = sessionStorage.getItem('jwtToken');
+        if (token) {
+            axios.delete(`http://localhost:8081/donation/deletedonation/${donationId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(() => {
+                alert('Donation deleted successfully');
+                fetchDonations(); // Refresh list after deletion
+            })
+            .catch(error => {
+                console.error('Error deleting the donation:', error);
+                alert('Failed to delete donation');
+            });
+        } else {
+            console.error('Token not found in session storage');
+        }
+    };
+
     return (
         <div className="container-fluid pt-4">  
             <NavBar />
@@ -42,12 +85,17 @@ const DonationPage = () => {
                 </div>
                 <div className="col-lg-9" style={{ marginTop: '58px' }}>
                     <div className="container">
-                        <DonationList donation={donation} deleteUser={selectedUser} />  {/* Pass props to DonationList */}
+                        <DonationList 
+                            donations={donations} 
+                            donationTypes={donationTypes}
+                            deleteDonation={deleteDonation} 
+                            loading={loading} 
+                        /> 
                     </div>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default DonationPage;

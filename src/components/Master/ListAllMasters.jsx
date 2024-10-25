@@ -13,43 +13,41 @@ const ListAllMasters = () => {
 
     const token = sessionStorage.getItem('jwtToken');
     const [masterData, setMasterData] = useState([]);
+    const [error, setError] = useState(''); // State to store any errors
 
     useEffect(() => {
- 
         const fetchMasterData = async () => {
             const config = masterTypeConfig[masterType.toLowerCase()];
+
             if (!config) {
-                console.error('Invalid master type:', masterType.toLowerCase());
+                setError(`Invalid master type: ${masterType}`);
                 return;
             }
 
             try {
                 const response = await axios.get(config.apiEndpoint, {
                     headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                        Authorization: `Bearer ${token}`,
+                    },
                 });
                 setMasterData(response.data);
-                console.log(response.data);
-            } catch (error) {
-                console.error(`Error fetching values:`, error); // Log the entire error object
+            } catch (err) {
+                setError('Failed to fetch data. Please try again later.');
+                console.error('Error fetching values:', err);
             }
         };
-    
+
         fetchMasterData();
     }, [masterType, token]);
-    
 
     const handleBack = () => {
-        navigate(-1); // Navigate back to the previous page in history
+        navigate(-1);
     };
 
-    const displayNameField = masterTypeConfig[masterType]?.fields[0] || 'name';
-    console.log('Master Type:', masterType); // Should output 'donation type'
-    
+    const displayNameField = masterTypeConfig[masterType.toLowerCase()]?.fields?.[0] || 'name';
 
     return (
-        <div className="container-fluid pt-4">  
+        <div className="container-fluid pt-4">
             <NavBar />
             <div className="row">
                 <div className="col-lg-3">
@@ -57,54 +55,69 @@ const ListAllMasters = () => {
                 </div>
                 <div className="col-lg-9" style={{ marginTop: '58px' }}>
                     <div className="container">
-                        <h2 className="mt-3 mb-4">List of {masterTypeConfig[masterType]?.displayName || 'Masters'}</h2>
-                        <MDBBtn className='mb-2'>
-                            <Link 
-                                to="/add-master" 
-                                className="nav-link" 
+                        <h2 className="mt-3 mb-4">
+                            List of {masterTypeConfig[masterType.toLowerCase()]?.displayName || 'Masters'}
+                        </h2>
+
+                        {error && <div className="alert alert-danger">{error}</div>}
+
+                        <MDBBtn className="mb-2">
+                            <Link
+                                to="/add-master"
+                                className="nav-link"
                                 style={{ color: 'inherit', textDecoration: 'none' }}
-                                state={{ masterType }} 
+                                state={{ masterType }}
                             >
                                 Add New
                             </Link>
                         </MDBBtn>
-                        <MDBBtn className='mb-2 float-right' onClick={handleBack}>
+                        <MDBBtn className="mb-2 float-right" onClick={handleBack}>
                             Back
                         </MDBBtn>
 
-                        <MDBTable align='middle' bordered hover small>
-                            <caption>List of {masterTypeConfig[masterType]?.displayName || 'Masters'}</caption>
+                        <MDBTable align="middle" bordered hover small>
+                            <caption>
+                                List of {masterTypeConfig[masterType.toLowerCase()]?.displayName || 'Masters'}
+                            </caption>
                             <MDBTableHead dark>
                                 <tr>
-                                    <th scope='col'>Sr. No</th>
-                                    <th scope='col'>{masterTypeConfig[masterType]?.displayName}</th>
-                                    <th scope='col'>Status</th>
-                                    <th scope='col'>Created</th>
-                                    <th scope='col'>Actions</th>
+                                    <th scope="col">Sr. No</th>
+                                    <th scope="col">{masterTypeConfig[masterType.toLowerCase()]?.displayName}</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Created</th>
+                                    <th scope="col">Actions</th>
                                 </tr>
                             </MDBTableHead>
                             <MDBTableBody>
-                                {masterData.map((item, index) => {
-                                    const formattedDate = new Date(item.created).toLocaleDateString('en-GB');
+                                {masterData.length > 0 ? (
+                                    masterData.map((item, index) => {
+                                        const formattedDate = new Date(item.created).toLocaleDateString('en-GB');
 
-                                    return (
-                                        <tr key={item.id}>
-                                            <td>{index + 1}</td>
-                                            <td>{item[displayNameField]}</td>
-                                            <td>
-                                                <MDBBadge color={item.status === 'Y' ? 'success' : 'danger'} pill>
-                                                    {item.status === 'Y' ? 'Active' : 'Inactive'}
-                                                </MDBBadge>
-                                            </td>
-                                            <td>{formattedDate}</td>
-                                            <td>
-                                                <MDBBtn color='link' rounded size='sm'>
-                                                    Edit
-                                                </MDBBtn>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
+                                        return (
+                                            <tr key={item.id}>
+                                                <td>{index + 1}</td>
+                                                <td>{item[displayNameField]}</td>
+                                                <td>
+                                                    <MDBBadge color={item.status === 'Y' ? 'success' : 'danger'} pill>
+                                                        {item.status === 'Y' ? 'Active' : 'Inactive'}
+                                                    </MDBBadge>
+                                                </td>
+                                                <td>{formattedDate}</td>
+                                                <td>
+                                                    <MDBBtn color="link" rounded size="sm">
+                                                        Edit
+                                                    </MDBBtn>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
+                                ) : (
+                                    <tr>
+                                        <td colSpan="5" className="text-center">
+                                            No records found.
+                                        </td>
+                                    </tr>
+                                )}
                             </MDBTableBody>
                         </MDBTable>
                     </div>
@@ -112,6 +125,6 @@ const ListAllMasters = () => {
             </div>
         </div>
     );
-}
+};
 
 export default ListAllMasters;

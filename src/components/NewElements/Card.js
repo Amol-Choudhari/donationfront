@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './Card.css';  // Assuming you add your custom styles here
 
-function Card({ title, value, icon, color, completed, total }) {
+function Card({ title, value, icon, color = 'primary', completed, total }) {
     const isTasksCard = completed !== undefined && total !== undefined; 
     const percentage = isTasksCard && total !== 0 ? Math.round((completed / total) * 100) : 0;
-    
+
     return (
         <div className="col-xl-3 col-md-6 mb-4">
-            <div className={`card border-left-${color} shadow h-100 py-2`}>
+            <div className={`card custom-card shadow h-100 py-2`}>
                 <div className="card-body">
                     <div className="row no-gutters align-items-center">
                         <div className="col mr-2">
@@ -19,16 +20,18 @@ function Card({ title, value, icon, color, completed, total }) {
                             </div>
 
                             {isTasksCard && (
-                                <div className="row no-gutters align-items-center">
+                                <div className="row no-gutters align-items-center mt-3">
                                     <div className="col-auto">
-                                        <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800">{percentage}%</div>
+                                        <div className="h5 mb-0 ml-2 mr-3 font-weight-bold text-gray-800">{percentage}%</div>
                                     </div>
                                     <div className="col">
-                                        <div className="progress progress-sm mr-2">
-                                            <div className="col">
-                                                <progress className="progress progress-sm mr-2" value={percentage} max="100">{percentage}%</progress> 
-                                            </div>
-                                        </div>
+                                        {/* Using the <progress> element for better accessibility */}
+                                        <progress 
+                                            className="custom-progress-bar" 
+                                            value={percentage} 
+                                            max="100">
+                                                {percentage}%
+                                        </progress>
                                     </div>
                                 </div>
                             )}
@@ -40,7 +43,7 @@ function Card({ title, value, icon, color, completed, total }) {
                 </div>
             </div>
         </div>
-    );    
+    );
 }
 
 Card.propTypes = {
@@ -52,5 +55,4 @@ Card.propTypes = {
     total: PropTypes.number,
 };
 
-// Wrap the Card component with React.memo
 export default React.memo(Card);
