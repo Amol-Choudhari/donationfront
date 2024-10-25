@@ -211,7 +211,7 @@ const DonationForm = () => {
                                                     onChange={handleDonationTypeChange}
                                                 />
                                                 <label className="form-check-label" htmlFor={`donationtype-${donationtype.id}`}>
-                                                    {donationtype.donation_type}
+                                                    {donationtype.type}
                                                 </label>
                                             </div>
                                         ))}
