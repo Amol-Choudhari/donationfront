@@ -18,26 +18,30 @@ const MainPage = () => {
     useEffect(() => {
         const fetchValues = async () => {
             try {
-                const response = await axios.get('http://localhost:8081/user/getusers'); // API call using axios
-
+                const token = sessionStorage.getItem('jwtToken'); // Retrieve the token from sessionStorage
+    
+                const response = await axios.get('http://localhost:8081/user/getusers', {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Add Bearer token to headers
+                        'Content-Type': 'application/json', // Optional: Set Content-Type
+                    }
+                });
+    
                 // Update the state with the fetched values
                 setValues({
-                    monthlyEarnings: response.data.monthlyEarnings,
-                    annualEarnings: response.data.annualEarnings,
-                    pendingRequests: response.data.pendingRequests,
+                    monthlyEarnings: response.data.monthlyEarnings || "₹0", // Fallback if undefined
+                    annualEarnings: response.data.annualEarnings || "₹0",
+                    pendingRequests: response.data.pendingRequests || 0,
                 });
             } catch (error) {
                 console.error('Error fetching values:', error);
             }
         };
-
+    
         fetchValues();
     }, []);
+    
 
-
-   
-
-   
     // Static data with fetched values for "value" fields
     const cardData = [
         { id: 1, title: "Earnings (Monthly)", value: values.monthlyEarnings, icon: "fa-calendar", color: "primary" },

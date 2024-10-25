@@ -1,3 +1,5 @@
+// src/components/UserForm.js
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -5,8 +7,11 @@ import NavBar from '../Layout/NavBar';
 import SideBar from '../Layout/SideBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik';
 import * as Yup from 'yup';
+
+// API base URL configuration
+const API_BASE_URL = 'http://localhost:8081';
 
 const UserForm = () => {
     const { userId } = useParams();
@@ -29,9 +34,10 @@ const UserForm = () => {
     const [formError, setFormError] = useState(null);
     const [availableRoles, setAvailableRoles] = useState([]);
 
+    // Fetch available roles with proper error handling
     const fetchRoles = useCallback(async () => {
         try {
-            const response = await axios.get('http://localhost:8081/master/roles/fetchall', {
+            const response = await axios.get(`${API_BASE_URL}/master/roles/fetchall`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -42,16 +48,13 @@ const UserForm = () => {
         }
     }, [token]);
 
-    useEffect(() => {
-        fetchRoles();
-    }, [fetchRoles]);
-
+    // Load user details if `userId` is present
     useEffect(() => {
         const loadUserDetails = async () => {
             if (userId) {
                 setIsLoading(true);
                 try {
-                    const response = await axios.get(`http://localhost:8081/user/getuser/${userId}`, {
+                    const response = await axios.get(`${API_BASE_URL}/user/getuser/${userId}`, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
@@ -67,44 +70,47 @@ const UserForm = () => {
         loadUserDetails();
     }, [userId, token]);
 
+    useEffect(() => {
+        fetchRoles();
+    }, [fetchRoles]);
+
     // Yup validation schema with custom error messages
     const UserSchema = Yup.object().shape({
-        name: Yup.string()
-            .required('Please enter your name'),
+        name: Yup.string().required('Please enter your name'),
         mobile: Yup.string()
-            .matches(/^[0-9]+$/, 'Mobile number must contain only digits') // Regex for numeric-only values
+            .matches(/^\d+$/, 'Mobile number must contain only digits')
             .required('Please provide your mobile number'),
         age: Yup.number()
             .required('Age is required')
             .positive('Age must be a positive number')
             .integer('Age must be a whole number'),
-        gender: Yup.string()
-            .required('Please select your gender'),
+        gender: Yup.string().required('Please select your gender'),
         email: Yup.string()
             .email('Please enter a valid email address')
             .required('Email is required'),
-        username: Yup.string()
-            .required('Username is mandatory'),
+        username: Yup.string().required('Username is mandatory'),
         password: Yup.string()
             .required('Password is required')
             .min(6, 'Password must be at least 6 characters long'),
         confirmPassword: Yup.string()
             .oneOf([Yup.ref('password'), null], 'Passwords do not match')
             .required('Please confirm your password'),
-        roles: Yup.array()
-            .min(1, 'Please select at least one role')
+        roles: Yup.array().min(1, 'Please select at least one role')
     });
-    
 
+    // Handle form submission with API interaction
     const handleSubmit = async (values) => {
         setIsLoading(true);
         setFormError(null);
         try {
             const method = userId ? 'put' : 'post';
-            const url = userId ? `http://localhost:8081/user/edituser/${userId}` : 'http://localhost:8081/user/adduser';
+            const url = userId ? `${API_BASE_URL}/user/edituser/${userId}` : `${API_BASE_URL}/user/adduser`;
             const payload = {
                 ...values,
-                roles: values.roles.map(roleId => ({ id: roleId, name: availableRoles.find(r => r.id === roleId)?.name }))
+                roles: values.roles.map(roleId => ({
+                    id: roleId,
+                    name: availableRoles.find(r => r.id === roleId)?.name
+                }))
             };
 
             const response = await axios[method](url, payload, {
@@ -139,10 +145,10 @@ const UserForm = () => {
                             initialValues={user}
                             validationSchema={UserSchema}
                             onSubmit={handleSubmit}
-                            enableReinitialize={true} // Re-initialize when userId changes
-                            validateOnChange={true} // Enables real-time validation on change
+                            enableReinitialize={true}
+                            validateOnChange={true}
                         >
-                            {({ values }) => (
+                            {({ values, isSubmitting }) => (
                                 <Form>
                                     <div className="row mb-4">
                                         <div className="col">
@@ -173,7 +179,12 @@ const UserForm = () => {
                                     <div className="row mb-4">
                                         <div className="col">
                                             <label htmlFor="gender">Gender</label>
-                                            <Field name="gender" className="form-control border" placeholder="Enter Gender" />
+                                            <Field as="select" name="gender" className="form-control border">
+                                                <option value="">Select Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Other">Other</option>
+                                            </Field>
                                             <ErrorMessage name="gender" component="div" className="text-danger" />
                                         </div>
                                         <div className="col">
@@ -199,18 +210,42 @@ const UserForm = () => {
                                     <div className="row mb-4">
                                         <div className="col">
                                             <label htmlFor="roles">Roles</label>
-                                            {availableRoles.map(role => (
-                                                <div key={role.id} className="form-check">
-                                                    <Field type="checkbox" name="roles" value={role.id} className="form-check-input" />
-                                                    <label htmlFor={`role-${role.id}`} className="form-check-label">{role.name}</label>
-                                                </div>
-                                            ))}
+                                            <FieldArray name="roles">
+                                                {({ remove, push }) => (
+                                                    availableRoles.map((role) => {
+                                                        const isChecked = values.roles.includes(role.id);
+
+                                                        return (
+                                                            <div key={role.id} className="form-check">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    className="form-check-input"
+                                                                    id={`role-${role.id}`}
+                                                                    name="roles"
+                                                                    value={role.id}
+                                                                    checked={isChecked}
+                                                                    onChange={() => {
+                                                                        if (isChecked) {
+                                                                            // Remove if already checked
+                                                                            remove(values.roles.indexOf(role.id));
+                                                                        } else {
+                                                                            // Add if not checked
+                                                                            push(role.id);
+                                                                        }
+                                                                    }}
+                                                                />
+                                                                <label htmlFor={`role-${role.id}`} className="form-check-label">{role.name}</label>
+                                                            </div>
+                                                        );
+                                                    })
+                                                )}
+                                            </FieldArray>
                                             <ErrorMessage name="roles" component="div" className="text-danger" />
                                         </div>
                                     </div>
 
                                     {formError && <div className="text-danger mb-3">{formError}</div>}
-                                    <button type="submit" className="btn btn-success mb-4" disabled={isLoading}>
+                                    <button type="submit" className="btn btn-success mb-4" disabled={isLoading || isSubmitting}>
                                         {isLoading ? 'Saving...' : (userId ? 'Update' : 'Create')}
                                     </button>
                                 </Form>

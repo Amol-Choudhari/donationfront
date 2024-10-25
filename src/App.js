@@ -4,7 +4,7 @@ import Header from './components/SiteElements/Header'; // Make sure the path is 
 import Footer from './components/SiteElements/Footer'; // Make sure the path is correct
 import LoginPage from './components/Pages/LoginPage';
 import About from './components/Pages/About';
-import Register from "./components/Pages/Register";
+import ForgotPasswordPage from "./components/Pages/ForgotPasswordPage";
 import MainPage from "./components/Dashboard/MainPage";
 import DonationPage from "./components/Dashboard/DonationPage";
 import ReportPage from './components/Dashboard/ReportPage';
@@ -24,7 +24,7 @@ function App() {
                     <Route exact path="/" element={<LoginPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/about" element={<About />} />
-                    <Route path="/register" element={<Register />} />
+                    <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
                     <Route path="/mainpage" element={<MainPage />} />
                     <Route path="/donation" element={<DonationPage />} /> {/* Use element instead of component */}
                     <Route path="/report" element={<ReportPage />} />

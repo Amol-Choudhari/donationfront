@@ -1,7 +1,7 @@
 import React from 'react';
 import './Layout.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';  // Correct for new export format
+import { jwtDecode } from 'jwt-decode'; // If it's a named export
 
 const SideBar = () => {
     const navigate = useNavigate();
@@ -10,7 +10,7 @@ const SideBar = () => {
     
     let decodedToken = null;
     
-    // Safely decode the token if it exists
+    // Decode the token safely if it exists
     try {
         decodedToken = token ? jwtDecode(token) : null;
     } catch (error) {
@@ -23,12 +23,14 @@ const SideBar = () => {
     };
 
     // Helper function to determine the active class dynamically
-    const getNavItemClass = (path) => location.pathname === path ? 'nav-item active' : 'nav-item';
+    const getNavItemClass = (path) => 
+        location.pathname === path ? 'nav-item active' : 'nav-item';
 
     return (
         <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            {/* Brand */}
             <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/mainpage">
-                {/* <div className="sidebar-brand-text mx-3">Jai Guru Mauli</div> */}
+                <div className="sidebar-brand-text mx-3">Jai Guru Mauli</div>
             </a>
 
             {/* Navigation Links */}
@@ -42,7 +44,7 @@ const SideBar = () => {
             {decodedToken && (
                 <li className={getNavItemClass(`/userform/${decodedToken.userid}`)}>
                     <Link className="nav-link" to={`/userform/${decodedToken.userid}`}>
-                        <i className="fas fa-user-md me-4"></i>
+                        <i className="fas fa-user-md me-3"></i>
                         <span>Profile</span>
                     </Link>
                 </li>
@@ -64,15 +66,8 @@ const SideBar = () => {
 
             <li className={getNavItemClass('/report')}>
                 <Link className="nav-link" to="/report">
-                    <i className="fas fa-file-text fa-fw me-3"></i>
+                    <i className="fas fa-file-alt fa-fw me-3"></i>
                     <span>Reports</span>
-                </Link>
-            </li>
-
-            <li className={getNavItemClass('/manualbackup')}>
-                <Link className="nav-link" to="/manualbackup">
-                    <i className="fas fa-database fa-fw me-3"></i>
-                    <span>Backup</span>
                 </Link>
             </li>
 
@@ -84,7 +79,10 @@ const SideBar = () => {
             </li>
 
             <li className="nav-item">
-                <button className="nav-link btn btn-link text-left" onClick={handleLogout} style={{ color: 'inherit', textDecoration: 'none' }}>
+                <button 
+                    className="nav-link btn btn-link text-left"
+                    onClick={handleLogout}
+                >
                     <i className="fas fa-power-off me-3"></i>
                     <span>Logout</span>
                 </button>

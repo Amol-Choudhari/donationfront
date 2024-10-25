@@ -20,16 +20,18 @@ const MasterPage = () => {
                 </div>
                 <div className="col-lg-9" style={{ marginTop: '58px' }}>
                     <div className="container">
-                        <h2 className="mt-3 mb-4">Masters</h2>
-                        <MDBBtn className='me-1' color='secondary' onClick={() => handleNavigation('Donation Type')}>
-                            Donation Type
-                        </MDBBtn>
-                        <MDBBtn className='me-1' color='secondary' onClick={() => handleNavigation('Gender')}>
-                            Gender
-                        </MDBBtn>
-                        <MDBBtn className='me-1' color='secondary' onClick={() => handleNavigation('Roles')}>
-                            Roles
-                        </MDBBtn>
+                        <h2 className="mt-3 mb-4 text-center">Masters</h2>
+                        <div className="d-flex justify-content-start flex-wrap gap-2">
+                            <MDBBtn color='secondary' onClick={() => handleNavigation('Donation Type')}>
+                                Donation Type
+                            </MDBBtn>
+                            <MDBBtn color='secondary' onClick={() => handleNavigation('Gender')}>
+                                Gender
+                            </MDBBtn>
+                            <MDBBtn color='secondary' onClick={() => handleNavigation('Roles')}>
+                                Roles
+                            </MDBBtn>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,85 +1,75 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom'; // Import useParams hook
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import NavBar from '../Layout/NavBar';
 import SideBar from '../Layout/SideBar';
-import { useNavigate  } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-
 const DonationForm = () => {
-  
-    const params = useParams(); // Use useParams hook
-    const donationId = params.donationId; // Extract userId from params object
+    const params = useParams();
+    const donationId = params.donationId;
 
     const initialDonationState = {
         name: '',
         mobile: '',
         address: '',
         amount: '',
-        donation_type:'',
+        donation_type: '',
     };
 
     const [donation, setDonation] = useState(initialDonationState);
-    const navigate = useNavigate (); // Access the history object for navigation
+    const navigate = useNavigate();
     const [donationConfirmed, setDonationConfirmed] = useState(null);
-
-    // Function to reset the form state to initial values
-    const resetForm = () => {
-        setDonation(initialDonationState);
-    };
-
-    // Get the token from the session storage
-    const token = sessionStorage.getItem('jwtToken');
-
     const [DonationTypes, setDonationTypes] = useState([]);
 
+    // Get the token from session storage
+    const token = sessionStorage.getItem('jwtToken');
+
+    // Fetch available donation types from the backend
     const fetchDonationTypes = useCallback(async () => {
         try {
-            const response = await axios.get('http://localhost:8081/master/donationtype/fetchall',{
+            const response = await axios.get('http://localhost:8081/master/donationtype/fetchall', {
                 headers: {
-                Authorization: `Bearer ${token}` // Assuming your backend expects a Bearer token
+                    Authorization: `Bearer ${token}`
                 }
             });
-        
             setDonationTypes(response.data);
         } catch (error) {
-            console.error('Error fetching donation type:', error);
+            console.error('Error fetching donation types:', error);
         }
     }, [token]);
 
     useEffect(() => {
-        // Fetch available donation types from the backend when the component mounts
         fetchDonationTypes();
     }, [fetchDonationTypes]);
 
-    // Load donation details if userId is provided (for edit mode)
+    // Load donation details if donationId is provided (for edit mode)
     useEffect(() => {
         if (donationId) {
-            axios.get(`http://localhost:8081/donation/getdonation/${donationId}`,{
+            axios.get(`http://localhost:8081/donation/getdonation/${donationId}`, {
                 headers: {
-                Authorization: `Bearer ${token}` // Assuming your backend expects a Bearer token
+                    Authorization: `Bearer ${token}`
                 }
             })
-            .then(response => 
-            {setDonation(response.data);
-
-                if(response.data.confirmation==="yes"){
-                setDonationConfirmed(response.data.confirmation);
+            .then(response => {
+                setDonation(response.data);
+                if (response.data.confirmation === "yes") {
+                    setDonationConfirmed(response.data.confirmation);
                 }
-                
             })
             .catch(error => console.error('Error loading the donation details', error));
         }
-    }, [donationId,token]);
+    }, [donationId, token]);
 
-    // Handle donation selection
+    // Handle donation type change
     const handleDonationTypeChange = (event) => {
-        const { value, checked } = event.target;
-        const selectedDonationTypes = DonationTypes.find(donationtype => donationtype.id === parseInt(value));
-        setDonation(prevState => ({...prevState, donation_type: selectedDonationTypes}));
+        const { value } = event.target;
+        const selectedDonationType = DonationTypes.find(donationtype => donationtype.id === parseInt(value));
+        if (selectedDonationType) {
+            setDonation(prevState => ({ ...prevState, donation_type: selectedDonationType }));
+        }
     };
 
     // Handle form input changes
@@ -92,15 +82,14 @@ const DonationForm = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        if (donation.donation_type.length === 0) {
-            alert('Please select at least one donation type.');
+        if (!donation.donation_type || !donation.donation_type.id) {
+            alert('Please select a donation type.');
             return;
         }
 
         const method = donationId ? 'put' : 'post';
         const url = donationId ? `http://localhost:8081/donation/confirmdonation/${donationId}` : 'http://localhost:8081/donation/adddonation';
 
-        // Ensure the JSON payload is correctly structured
         const payload = {
             name: donation.name,
             mobile: donation.mobile,
@@ -109,40 +98,35 @@ const DonationForm = () => {
             donation_type: donation.donation_type.id,
         };
 
-        axios[method](url, payload,{
+        axios[method](url, payload, {
             headers: {
-                Authorization: `Bearer ${token}` // Assuming your backend expects a Bearer token
+                Authorization: `Bearer ${token}`
             }
-        }) // Pass the user object as data
+        })
         .then(response => {
-            if(response.data.lastDonaId != null){
-            if(donationId){
-                alert("Donation details Confirmed successfully");
-                navigate(`/donationform/${donationId}`);
-            }else{
-                alert("New Donation added successfully");
-                navigate(`/donationform/${response.data.lastDonaId}`);
-            }
-            
-            }else{
-                alert("Donation not added. Please try again");
+            if (response.data.lastDonaId != null) {
+                if (donationId) {
+                    alert("Donation details Confirmed successfully");
+                    navigate(`/donationform/${donationId}`);
+                } else {
+                    alert("New Donation added successfully");
+                    navigate(`/donationform/${response.data.lastDonaId}`);
+                }
+            } else {
+                alert("Donation not added. Please try again.");
             }
         })
         .catch(error => console.error('Error saving the donation', error));
     };
 
-    var title = "Add Donation Form";
-    if(donationId){
-        title = "Edit Donation Form";
-    }
+    const title = donationId ? "Edit Donation Form" : "Add Donation Form";
 
     return (
-
         <div className="container-fluid pt-4">  
             <NavBar />
             <div className="row">
                 <div className="col-lg-3"><SideBar /></div>
-                <div className="col-lg-6" style={{ paddingTop: '90px' }}> {/* Increase padding-top to push content below NavBar */}
+                <div className="col-lg-6" style={{ paddingTop: '90px' }}>
                     <div className="container border border-primary rounded" style={{ padding: '30px' }}>
                         <h3>{title}</h3>
                         <form onSubmit={handleSubmit}>
@@ -223,10 +207,10 @@ const DonationForm = () => {
                                                     type="radio"
                                                     value={donationtype.id}
                                                     id={`donationtype-${donationtype.id}`}
-                                                    checked={donationtype.id === donation.donation_type}
+                                                    checked={donation.donation_type && donationtype.id === donation.donation_type.id}
                                                     onChange={handleDonationTypeChange}
                                                 />
-                                                <label className="form-check-label" htmlFor={`donation-${donationtype.id}`}>
+                                                <label className="form-check-label" htmlFor={`donationtype-${donationtype.id}`}>
                                                     {donationtype.donation_type}
                                                 </label>
                                             </div>
