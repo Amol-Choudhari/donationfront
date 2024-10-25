@@ -5,8 +5,11 @@ import './MainPage.css';
 import { Link } from 'react-router-dom';
 import Card from '../NewElements/Card'
 import axios from 'axios';
+import useAuth from '../Authentication/useAuth';
 
 const MainPage = () => {
+    
+    //useAuth();
 
     const [values, setValues] = useState({
         monthlyEarnings: "$0",
@@ -15,6 +18,7 @@ const MainPage = () => {
     });
 
     useEffect(() => {
+
         const fetchValues = async () => {
             try {
                 const response = await axios.get('http://localhost:8081/user/getusers'); // API call using axios
