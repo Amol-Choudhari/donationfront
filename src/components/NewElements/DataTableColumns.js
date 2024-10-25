@@ -3,6 +3,12 @@ import { Link } from 'react-router-dom';
 
 const DataTableColumns = ({ deleteUser }) => [
     {
+        name: 'S.No',
+        selector: (row, index) => index + 1,
+        sortable: true,
+        width: '50px',
+    },
+    {
         name: 'Name',
         selector: row => row.name,
         sortable: true,
