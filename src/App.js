@@ -14,32 +14,35 @@ import UserForm from './components/Users/UserForm';
 import DonationForm from './components/Donation/DonationForm';
 import ListAllMasters from './components/Master/ListAllMasters';
 import AddMaster from './components/Master/AddMaster';
+import AuthWrapper from './components/Authentication/AuthWrapper';
 
 function App() {
     return (
         <Router>
             <div>
                 <Header />
-                <Routes>
-                    <Route exact path="/" element={<LoginPage />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
-                    <Route path="/mainpage" element={<MainPage />} />
-                    <Route path="/donation" element={<DonationPage />} /> {/* Use element instead of component */}
-                    <Route path="/report" element={<ReportPage />} />
-                    <Route path="/masters" element={<MasterPage />} />
-                    <Route path="/manageusers" element={<ManageUsers />} />
+                <AuthWrapper>
+                    <Routes>
+                        <Route exact path="/" element={<LoginPage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
+                        <Route path="/mainpage" element={<MainPage />} />
+                        <Route path="/donation" element={<DonationPage />} /> {/* Use element instead of component */}
+                        <Route path="/report" element={<ReportPage />} />
+                        <Route path="/masters" element={<MasterPage />} />
+                        <Route path="/manageusers" element={<ManageUsers />} />
 
-                    <Route path="/userform" element={<UserForm />} />
-                    <Route path="/userform/:userId" element={<UserForm />} />
-                    <Route path="/manageusers" element={<ManageUsers />} />
-                    <Route path="/donationform" element={<DonationForm />} />
-                    <Route path="/donationform/:donationId" element={<DonationForm />} />
-                    <Route path="/list-all-masters" element={<ListAllMasters />} />
-                    <Route path="/add-master" element={<AddMaster />} />
+                        <Route path="/userform" element={<UserForm />} />
+                        <Route path="/userform/:userId" element={<UserForm />} />
+                        <Route path="/manageusers" element={<ManageUsers />} />
+                        <Route path="/donationform" element={<DonationForm />} />
+                        <Route path="/donationform/:donationId" element={<DonationForm />} />
+                        <Route path="/list-all-masters" element={<ListAllMasters />} />
+                        <Route path="/add-master" element={<AddMaster />} />
 
-                </Routes>
+                    </Routes>
+                </AuthWrapper>
                 <Footer />
             </div>
         </Router>
