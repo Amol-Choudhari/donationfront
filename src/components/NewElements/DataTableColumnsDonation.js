@@ -5,7 +5,7 @@ const DataTableColumnsDonation = ({ deleteDonation, donationTypes }) => {
     const getDonationTypeName = (typeId) => {
         if (!donationTypes || donationTypes.length === 0) return 'Unknown Type';
         const type = donationTypes.find(type => type.id === typeId);
-        return type ? type.donation_type : 'Unknown Type';
+        return type ? type.type : 'Unknown Type';
     };
 
     return [
@@ -32,7 +32,7 @@ const DataTableColumnsDonation = ({ deleteDonation, donationTypes }) => {
         },
         {
             name: 'Type',
-            selector: row => getDonationTypeName(row.donation_type),
+            selector: row => getDonationTypeName(row.id),
             sortable: true,
         },
         {
